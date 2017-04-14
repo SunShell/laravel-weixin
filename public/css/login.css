@@ -1,0 +1,21 @@
+body {
+    background: url("../images/login_bg_0.jpg") no-repeat;
+    background-size: cover;
+    min-width: 660px;
+    min-height: 495px;
+}
+
+.loginTop {
+    padding-top: 40px;
+}
+
+.loginTop h1 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.logoImg {
+    display: block;
+    margin: 100px auto 0;
+    width: 280px;
+}

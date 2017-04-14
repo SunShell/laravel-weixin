@@ -15,18 +15,18 @@ class CreateVotesTable extends Migration
     {
         Schema::create('votes', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('voteid');
+            $table->string('voteId');
             $table->string('name');
-            $table->timestamp('btm');
-            $table->timestamp('etm');
-            $table->string('pname');
+            $table->timestamp('startTime')->nullable();
+            $table->timestamp('endTime')->nullable();
+            $table->string('playerName');
             $table->text('detail');
-            $table->string('topimg');
-            $table->tinyInteger('votetype')->default(0);
-            $table->mediumInteger('dnum')->default(0);
-            $table->mediumInteger('pnum')->default(0);
-            $table->boolean('isdaily')->default(true);
-            $table->boolean('ispublic')->default(false);
+            $table->string('topImg');
+            $table->tinyInteger('voteType')->default(0);
+            $table->mediumInteger('dayNum')->default(0);
+            $table->mediumInteger('playerNum')->default(0);
+            $table->boolean('isDaily')->default(true);
+            $table->boolean('isPublic')->default(false);
             $table->timestamps();
         });
     }

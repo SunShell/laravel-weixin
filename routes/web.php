@@ -11,5 +11,17 @@
 |
 */
 
-//首页
-Route::get('/', 'VotesController@index');
+//index
+Route::get('/', 'VotesController@index')->name('home');
+
+//add vote
+Route::get('/create', 'VotesController@create');
+//save vote
+Route::post('/create', 'VotesController@store');
+
+//login
+Route::get('/login', 'SessionsController@create')->name('login');
+Route::post('/login', 'SessionsController@store');
+
+//logout
+Route::get('/logout', 'SessionsController@destroy');
