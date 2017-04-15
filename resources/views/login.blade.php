@@ -6,8 +6,6 @@
 
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/login.css">
-
-    <script src="https://cdn.bootcss.com/jquery/3.1.1/jquery.slim.min.js"></script>
 </head>
 
 <body>

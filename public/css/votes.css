@@ -152,3 +152,10 @@ h6, .h6 {
 .votesList .votesOperation .fa-times {
     color: #d9534f;
 }
+
+/*
+ * vote Form
+ */
+.voteForm {
+    width: 40%;
+}

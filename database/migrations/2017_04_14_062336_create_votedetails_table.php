@@ -17,8 +17,9 @@ class CreateVotedetailsTable extends Migration
             $table->increments('id');
             $table->string('voteId');
             $table->string('xsId');
+            $table->smallInteger('xsNum');
             $table->string('name');
-            $table->string('phoneNum');
+            $table->string('introduction');
             $table->string('img');
             $table->boolean('state')->default(false);
             $table->mediumInteger('num');

@@ -34,7 +34,7 @@
             </thead>
 
             <tbody>
-            <!--tr>
+            <tr>
                 <td class="text-center">
                     <input type="checkbox" class="checkOne">
                 </td>
@@ -46,7 +46,7 @@
                     &nbsp;
                     <i class="fa fa-times" title="删除" data-id=""></i>
                 </td>
-            </tr-->
+            </tr>
             </tbody>
         </table>
     </div>

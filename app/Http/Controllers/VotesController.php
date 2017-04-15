@@ -13,11 +13,20 @@ class VotesController extends Controller
 
     public function index()
     {
-        return view('votes.index');
+        $activeVal = 'voteList';
+
+        return view('votes.index', compact('activeVal'));
     }
 
     public function create()
     {
-        return view('votes.create');
+        $activeVal = 'voteForm';
+
+        return view('votes.create', compact('activeVal'));
+    }
+
+    public function store()
+    {
+
     }
 }
