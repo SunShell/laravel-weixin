@@ -5,27 +5,27 @@
     <div id="endTimeDiv"></div>
 
     <div class="container">
-        <form class="voteForm" method="post" action="/create">
+        <form class="voteForm" method="post" enctype="multipart/form-data" action="/create">
             {{ csrf_field() }}
 
             <div class="form-group">
                 <label for="name">活动名称</label>
-                <input type="text" class="form-control" id="name" name="name" tip="活动名称">
+                <input type="text" class="form-control col-lg-6" id="name" name="name" tip="活动名称">
             </div>
 
             <div class="form-group">
                 <label for="startTime">开始时间</label>
-                <input type="text" class="form-control" id="startTime" name="startTime" tip="开始时间" readonly>
+                <input type="text" class="form-control col-lg-6" id="startTime" name="startTime" tip="开始时间" readonly>
             </div>
 
             <div class="form-group">
                 <label for="endTime">结束时间</label>
-                <input type="text" class="form-control" id="endTime" name="endTime" tip="结束时间" readonly>
+                <input type="text" class="form-control col-lg-6" id="endTime" name="endTime" tip="结束时间" readonly>
             </div>
 
             <div class="form-group">
                 <label for="playerName">选手称谓</label>
-                <input type="text" class="form-control" id="playerName" name="playerName" tip="选手称谓">
+                <input type="text" class="form-control col-lg-6" id="playerName" name="playerName" tip="选手称谓">
             </div>
 
             <div class="form-group">
@@ -46,12 +46,12 @@
 
             <div class="form-group">
                 <label for="dayNum">每个微信可投票数</label>
-                <input type="text" class="form-control" id="dayNum" name="dayNum" tip="每个微信可投票数">
+                <input type="text" class="form-control col-lg-6" id="dayNum" name="dayNum" tip="每个微信可投票数">
             </div>
 
             <div class="form-group">
                 <label for="playerNum">每个微信可为同一选手投票数</label>
-                <input type="text" class="form-control" id="playerNum" name="playerNum" tip="每个微信可为同一选手投票数">
+                <input type="text" class="form-control col-lg-6" id="playerNum" name="playerNum" tip="每个微信可为同一选手投票数">
             </div>
 
             <div class="form-group">
@@ -90,15 +90,15 @@
                 <label>宣传图片</label>
 
                 <div>
-
+                    <input type="file" class="form-control col-lg-6" id="topImg" name="topImg" tip="宣传图片">
                 </div>
             </div>
 
             <div class="form-group">
                 <label>活动介绍</label>
 
-                <div>
-
+                <div style="width: 100%; height: 300px;">
+                    <script id="detail" name="detail" type="text/plain"></script>
                 </div>
             </div>
 
@@ -112,7 +112,5 @@
 @endsection
 
 @section('jsContent')
-    <link rel="stylesheet" href="css/calendar.css">
-    <script src="js/calendar.js"></script>
     <script type="text/javascript" src="js/addVote.js"></script>
 @endsection
