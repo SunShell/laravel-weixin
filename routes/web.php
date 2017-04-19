@@ -17,6 +17,8 @@ Route::get('/', 'VotesController@index')->name('home');
 Route::post('/', 'VotesController@search');
 //delete
 Route::post('/delete', 'VotesController@destroy');
+//pc detail
+Route::get('/votes/{voteId}', 'VotesController@pcDetail');
 
 //add vote
 Route::get('/create', 'VotesController@create');

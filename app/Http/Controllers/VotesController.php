@@ -10,7 +10,7 @@ class VotesController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except(['pcDetail']);
     }
 
     //首页
@@ -47,6 +47,20 @@ class VotesController extends Controller
         }
 
         return redirect()->home();
+    }
+
+    //PC端详情页
+    public function pcDetail($voteId)
+    {
+        $vote  = Vote::where('voteId', $voteId)->first();
+
+        return view('votes/pcDetail', compact('vote'));
+    }
+
+    //投票页
+    public function detail()
+    {
+
     }
 
     //添加页面

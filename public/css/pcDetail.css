@@ -1,0 +1,64 @@
+.topDiv {
+    height: 700px;
+    width: 100%;
+    background: url("../images/login_bg_1.jpg") no-repeat;
+    background-size: cover;
+}
+
+.topDiv .phoneDiv {
+    padding-top: 45px;
+    margin: 0 auto;
+    width: 322px;
+    height: 630px;
+}
+
+.topDiv .phoneDiv .phoneHeader {
+    width: 100%;
+    height: 42px;
+    background: url("../images/phone_header.png") no-repeat;
+}
+
+.topDiv .phoneDiv .phoneStatus {
+    width: 100%;
+    height: 21px;
+    line-height: 21px;
+    text-align: center;
+    background-color: #000000;
+    color: #fff;
+    font-size: 12px;
+}
+
+.topDiv .phoneDiv .phoneBody {
+    width: 100%;
+    height: 519px;
+    border-bottom: 1px solid #ccc;
+    background-color: #ffffff;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.topDiv .phoneDiv .phoneBody .phoneBodyContainer {
+    padding: 0 5px;
+}
+
+.topDiv .phoneDiv .phoneBody .phoneBodyTitle {
+    width: 100%;
+    line-height: 35px;
+    font-size: 1.2rem;
+}
+
+.topDiv .phoneDiv .phoneBody .phoneBodyLine {
+    width: 100%;
+    line-height: 35px;
+    font-size: 0.8rem;
+}
+
+.topDiv .phoneDiv .phoneBody .noShow {
+    display: none;
+}
+
+.topDiv .phoneDiv .phoneFooter {
+    width: 100%;
+    height: 47px;
+    background: url("../images/phone_footer.png") no-repeat;
+}
