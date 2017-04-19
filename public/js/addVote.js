@@ -6,8 +6,9 @@ $(function () {
                 'source | undo redo | bold italic underline strikethrough | superscript subscript | forecolor backcolor | removeformat |',
                 'insertorderedlist insertunorderedlist | selectall cleardoc paragraph | fontfamily fontsize' ,
                 '| justifyleft justifycenter justifyright justifyjustify |',
-                'link unlink | horizontal preview fullscreen', 'drafts', 'formula'
+                'link unlink | horizontal preview', 'formula'
         ],
+        autoHeightEnabled   : false,
         initialFrameHeight  : 240
     });
 
@@ -26,7 +27,7 @@ $(function () {
 
 //提交表单
 function saveFun() {
-    /*var flag = true;
+    var flag = true;
 
     $('.voteForm .form-control').each(function () {
         if($(this).attr('tip') != '' && $(this).val() == ''){
@@ -51,7 +52,7 @@ function saveFun() {
     if(!um.hasContents()){
         alert('请填写活动介绍！');
         return false;
-    }*/
+    }
 
     $('.voteForm').submit();
 }

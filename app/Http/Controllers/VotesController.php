@@ -13,13 +13,43 @@ class VotesController extends Controller
         $this->middleware('auth');
     }
 
+    //首页
     public function index()
     {
-        $activeVal = 'voteList';
+        $activeVal  = 'voteList';
+        $votes      = Vote::latest()->get();
+        $voteName  = '';
 
-        return view('votes.index', compact('activeVal'));
+        return view('votes.index', compact('activeVal','votes', 'voteName'));
     }
 
+    //搜索
+    public function search()
+    {
+        $voteName   = request('voteName');
+
+        if($voteName == '') return redirect()->home();
+
+        $activeVal  = 'voteList';
+        $votes      = Vote::where('name', 'like', '%'.$voteName.'%')->get();
+
+        return view('votes.index', compact('activeVal','votes', 'voteName'));
+    }
+
+    //删除
+    public  function destroy()
+    {
+        $voteIds = request('voteIds');
+        $delArr  = explode(',', $voteIds);
+
+        foreach ($delArr as $delId){
+            Vote::where('voteId', '=', $delId)->delete();
+        }
+
+        return redirect()->home();
+    }
+
+    //添加页面
     public function create()
     {
         $activeVal = 'voteForm';
@@ -27,13 +57,14 @@ class VotesController extends Controller
         return view('votes.create', compact('activeVal'));
     }
 
+    //保存
     public function store()
     {
         $request = request();
 
         $file       = $request->file('topImg');
-        $fileName   = time().'_'.$file->getClientOriginalName();
-        $file->move('topImages', $fileName);
+        $fileName   = time().str_random(5).'.'.$file->getClientOriginalExtension();
+        $file->move('storage/topImages', $fileName);
 
         $vote = new Vote;
 
@@ -55,6 +86,7 @@ class VotesController extends Controller
         return redirect()->home();
     }
 
+    //格式化时间
     private function formatDt($val, $type)
     {
         $arr = explode('/', $val);

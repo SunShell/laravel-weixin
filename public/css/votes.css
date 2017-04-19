@@ -153,6 +153,12 @@ h6, .h6 {
     color: #d9534f;
 }
 
+.votesList .voteLink {
+    cursor: pointer;
+    color: #3097d1;
+    text-decoration: underline;
+}
+
 /*
  * vote Form
  */

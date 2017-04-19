@@ -13,6 +13,10 @@
 
 //index
 Route::get('/', 'VotesController@index')->name('home');
+//search
+Route::post('/', 'VotesController@search');
+//delete
+Route::post('/delete', 'VotesController@destroy');
 
 //add vote
 Route::get('/create', 'VotesController@create');
