@@ -17,8 +17,19 @@ Route::get('/', 'VotesController@index')->name('home');
 Route::post('/', 'VotesController@search');
 //delete
 Route::post('/delete', 'VotesController@destroy');
-//pc detail
+
+//pc端详情
 Route::get('/votes/{voteId}', 'VotesController@pcDetail');
+//pc端查询和审核
+Route::post('/votes/{voteId}', 'VotesController@pcDetailQuery');
+//pc端报名页
+Route::get('/votes/apply/{voteId}', 'VotesController@pcApply');
+//pc端报名保存
+Route::post('/votes/apply/{voteId}', 'VotesController@pcApplyStore');
+//pc端排名
+Route::get('/votes/rank/{voteId}', 'VotesController@pcRank');
+//pc端选手详情
+Route::get('/votes/one/{theId}', 'VotesController@pcOneDetail');
 
 //add vote
 Route::get('/create', 'VotesController@create');

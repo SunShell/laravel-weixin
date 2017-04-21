@@ -12,4 +12,16 @@ function initFun() {
            $('#detailDiv').addClass('noShow');
        }
     });
+
+    $('#searchBtn').on('click',function () {
+        $('#queryVal').val($('#searchVal').val());
+        $('#searchForm').submit();
+    });
+
+    $('.voteOpBtn').on('click',function () {
+        if($(this).find('i').hasClass('fa-thumbs-o-up')) return false;
+
+        $('#checkId').val($(this).attr('data-id'));
+        $('#searchForm').submit();
+    });
 }

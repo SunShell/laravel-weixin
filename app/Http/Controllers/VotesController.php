@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Vote;
+use App\VoteDetail;
 
 class VotesController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except(['pcDetail']);
+        $this->middleware('auth');//->except(['pcDetail']);
     }
 
     //首页
@@ -52,9 +52,99 @@ class VotesController extends Controller
     //PC端详情页
     public function pcDetail($voteId)
     {
+        $vote = Vote::where('voteId', $voteId)->first();
+
+        $players = Votedetail::where('voteId', $voteId)->orderBy('state','asc')->orderBy('created_at','desc')->get();
+
+        return view('votes/pcDetail', compact('vote','players'));
+    }
+
+    //PC端选手搜索和审核
+    public function pcDetailQuery($voteId)
+    {
+        $request = request();
+
+        if(!$request->queryVal && !$request->checkId) return $this->pcDetail($voteId);
+
+        $queryVal = $request->queryVal;
+        $checkId = $request->checkId;
+
+        if($checkId){
+            VoteDetail::where('xsId', $checkId)->update(['state' => 1]);
+
+            return $this->pcDetail($voteId);
+        }else{
+            $vote = Vote::where('voteId', $voteId)->first();
+
+            $players = Votedetail::where('voteId', $voteId)->where(function ($query) use ($queryVal) {
+                $query->where('xsNum', $queryVal)
+                    ->orWhere('name', 'like', '%'.$queryVal.'%');
+            })->orderBy('created_at','desc')->get();
+
+            return view('votes/pcDetail', compact('vote','players'));
+        }
+    }
+
+    //pc端报名
+    public function pcApply($voteId)
+    {
         $vote  = Vote::where('voteId', $voteId)->first();
 
-        return view('votes/pcDetail', compact('vote'));
+        return view('votes/pcApply', compact('vote'));
+    }
+
+    //pc端报名保存
+    public function pcApplyStore($voteId)
+    {
+        $request = request();
+
+        $file       = $request->file('img');
+        $fileName   = time().str_random(5).'.'.$file->getClientOriginalExtension();
+        $file->move('storage/voteImages', $fileName);
+
+        $player = Votedetail::where('voteId', $voteId)->orderBy('created_at','desc')->first();
+        $xsNum = 1;
+
+        if($player->xsNum) $xsNum = $player->xsNum + 1;
+
+        $voteDetail = new Votedetail;
+
+        $voteDetail->voteId         = $voteId;
+        $voteDetail->xsId           = 'pc_'.time().'_'.str_random(5);
+        $voteDetail->xsNum          = $xsNum;
+        $voteDetail->name           = $request->name;
+        $voteDetail->introduction   = $request->introduction;
+        $voteDetail->img            = $fileName;
+        $voteDetail->state          = 1;
+        $voteDetail->num            = 0;
+
+        $voteDetail->save();
+
+        return redirect('/votes/'.$voteId);
+    }
+
+    //pc端排名
+    public function pcRank($voteId)
+    {
+        $vote = Vote::where('voteId', $voteId)->first();
+
+        $players = Votedetail::where('voteId', $voteId)->where('state', 1)->orderBy('num','desc')->get();
+
+        return view('votes/pcRank', compact('vote','players'));
+    }
+
+    //pc端选手详情
+    public function pcOneDetail($theId)
+    {
+        $idArr = explode('<>', $theId);
+        $voteId = $idArr[0];
+        $playerId = $idArr[1];
+
+        $vote = Vote::where('voteId', $voteId)->first();
+
+        $player = Votedetail::where('xsId', $playerId)->first();
+
+        return view('votes/pcOneDetail', compact('vote','player'));
     }
 
     //投票页
@@ -63,7 +153,7 @@ class VotesController extends Controller
 
     }
 
-    //添加页面
+    //投票添加页面
     public function create()
     {
         $activeVal = 'voteForm';
@@ -71,7 +161,7 @@ class VotesController extends Controller
         return view('votes.create', compact('activeVal'));
     }
 
-    //保存
+    //投票保存
     public function store()
     {
         $request = request();
