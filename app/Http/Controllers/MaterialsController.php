@@ -17,7 +17,7 @@ class MaterialsController extends Controller
 
     public function photos()
     {
-        $photos = $this->material->lists('image');
+        $photos = $this->material->lists('image',0,50);
 
         return $photos;
     }
