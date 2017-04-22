@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Vote;
-use App\VoteDetail;
+use App\Votedetail;
 
 class VotesController extends Controller
 {
@@ -44,6 +44,7 @@ class VotesController extends Controller
 
         foreach ($delArr as $delId){
             Vote::where('voteId', '=', $delId)->delete();
+            Votedetail::where('voteId', '=', $delId)->delete();
         }
 
         return redirect()->home();
@@ -105,7 +106,7 @@ class VotesController extends Controller
         $player = Votedetail::where('voteId', $voteId)->orderBy('created_at','desc')->first();
         $xsNum = 1;
 
-        if($player->xsNum) $xsNum = $player->xsNum + 1;
+        if($player && $player->xsNum) $xsNum = $player->xsNum + 1;
 
         $voteDetail = new Votedetail;
 
