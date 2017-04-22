@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use EasyWeChat\Message\Image;
+use EasyWeChat\Message\News;
 use Illuminate\Http\Request;
 
 class WechatController extends Controller
