@@ -57,3 +57,6 @@ Route::post('/login', 'SessionsController@store');
 
 //logout
 Route::get('/logout', 'SessionsController@destroy');
+
+//微信接口
+Route::any('/wechat', 'WechatController@serve');
