@@ -60,3 +60,5 @@ Route::get('/logout', 'SessionsController@destroy');
 
 //微信接口
 Route::any('/wechat', 'WechatController@serve');
+//获取微信图片素材
+Route::get('/photos', 'MaterialsController@photos');
