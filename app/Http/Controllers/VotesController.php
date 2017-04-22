@@ -46,6 +46,7 @@ class VotesController extends Controller
         foreach ($delArr as $delId){
             Vote::where('voteId', '=', $delId)->delete();
             Votedetail::where('voteId', '=', $delId)->delete();
+            Votedaily::where('voteId', '=', $delId)->delete();
         }
 
         return redirect()->home();
