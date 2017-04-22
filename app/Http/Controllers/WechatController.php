@@ -19,8 +19,6 @@ class WechatController extends Controller
             return "欢迎关注铝融网！";
         });
 
-        Log::info('return response.');
-
         return $wechat->server->serve();
     }
 }
