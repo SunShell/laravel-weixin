@@ -213,7 +213,9 @@ class VotesController extends Controller
             }
         }
 
-        return view('votes.apply', compact('vote', 'flag'));
+        $res = '';
+
+        return view('votes.apply', compact('vote', 'flag', 'res'));
     }
 
     //报名保存
@@ -259,7 +261,9 @@ class VotesController extends Controller
 
         $players = Votedetail::where('voteId', $voteId)->where('state', 1)->orderBy('num','desc')->get();
 
-        return view('votes.rank', compact('vote','players'));
+        $res = '';
+
+        return view('votes.rank', compact('vote','players', 'res'));
     }
 
     //选手详情
