@@ -16,17 +16,31 @@ class WechatController extends Controller
 
         $wechat = app('wechat');
 
-        $wechat->server->setMessageHandler(function($message){
+        $userApi = $wechat->user;
+
+        $wechat->server->setMessageHandler(function($message) use ($userApi){
             switch ($message->MsgType) {
                 case 'text':
-                    return '欢迎关注铝融网！';
+                    switch($message->Content){
+                        case '最美妈妈':
+                            return '活动尚未开始，请耐心等待！';
+                            break;
+                        /*default:
+                            return $this->getDefaultMsg();
+                            break;*/
+                    }
                     break;
                 default:
-                    return '亲，欢迎加入到铝融网免费找货卖货微信服务哦！你有困难我帮助，你有采购我来找。轻松写下你的需求：发语音、发文字我统统照收，并且免费报价报给您哦！不过，您要留下姓名和联系方式，我们会尽快联系您，为您找货！我们的客服热线0533-6202989，欢迎您随时来骚扰！';
+                    return $this->getDefaultMsg();
                     break;
             }
         });
 
         return $wechat->server->serve();
+    }
+
+    private function getDefaultMsg()
+    {
+        return '亲，欢迎加入到铝融网免费找货卖货微信服务哦！你有困难我帮助，你有采购我来找。轻松写下你的需求：发语音、发文字我统统照收，并且免费报价报给您哦！不过，您要留下姓名和联系方式，我们会尽快联系您，为您找货！我们的客服热线0533-6202989，欢迎您随时来骚扰！';
     }
 }
