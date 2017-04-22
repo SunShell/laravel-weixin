@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use EasyWeChat\Message\Image;
 use Illuminate\Http\Request;
 
 class WechatController extends Controller
@@ -18,11 +19,15 @@ class WechatController extends Controller
 
         $userApi = $wechat->user;
 
-        $wechat->server->setMessageHandler(function($message) use ($userApi){
+        $wechat->server->setMessageHandler(function($message) use ($userApi,$wechat){
             switch ($message->MsgType) {
                 case 'text':
                     switch($message->Content){
                         case '最美妈妈':
+                            $image = new Image(['media_id' => '18gcYy6GNI26QOrkRRtmIgK-gNmXA1nnxfeHVVLBuO8']);
+
+                            $wechat->staff->message($image)->to($message->FromUserName)->send();
+
                             return '活动尚未开始，请耐心等待！';
                             break;
                         default:
