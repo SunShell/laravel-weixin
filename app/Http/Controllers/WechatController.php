@@ -25,9 +25,9 @@ class WechatController extends Controller
                         case '最美妈妈':
                             return '活动尚未开始，请耐心等待！';
                             break;
-                        /*default:
+                        default:
                             return $this->getDefaultMsg();
-                            break;*/
+                            break;
                     }
                     break;
                 default:
