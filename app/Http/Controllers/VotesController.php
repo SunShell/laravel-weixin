@@ -277,7 +277,9 @@ class VotesController extends Controller
 
         $player = Votedetail::where('xsId', $playerId)->first();
 
-        return view('votes.oneDetail', compact('vote','player'));
+        $res = '';
+
+        return view('votes.oneDetail', compact('vote','player', 'res'));
     }
 
     //提交投票
