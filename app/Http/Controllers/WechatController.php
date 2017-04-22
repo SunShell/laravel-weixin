@@ -27,8 +27,26 @@ class WechatController extends Controller
                             $image = new Image(['media_id' => '18gcYy6GNI26QOrkRRtmIgK-gNmXA1nnxfeHVVLBuO8']);
 
                             $wechat->staff->message($image)->to($message->FromUserName)->send();
+                            break;
+                        case '厕所':
+                            $image = new Image(['media_id' => '18gcYy6GNI26QOrkRRtmIpn9n95c2gIREY40MEzidX0']);
 
-                            return '活动尚未开始，请耐心等待！';
+                            $wechat->staff->message($image)->to($message->FromUserName)->send();
+                            break;
+                        case '美女':
+                            $image = new Image(['media_id' => '18gcYy6GNI26QOrkRRtmIksDQEFGNFVT7eu_OoudKEw']);
+
+                            $wechat->staff->message($image)->to($message->FromUserName)->send();
+                            break;
+                        case '地铁':
+                            $image = new Image(['media_id' => '18gcYy6GNI26QOrkRRtmImuSAz3srUOfDevZr5tGl2Q']);
+
+                            $wechat->staff->message($image)->to($message->FromUserName)->send();
+                            break;
+                        case '颜色':
+                            $image = new Image(['media_id' => '18gcYy6GNI26QOrkRRtmIr0Mg2Pi4PeP6WJ58KZjqVs']);
+
+                            $wechat->staff->message($image)->to($message->FromUserName)->send();
                             break;
                         default:
                             return $this->getDefaultMsg();
