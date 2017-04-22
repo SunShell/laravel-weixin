@@ -1,8 +1,8 @@
-@extends('layouts.votepc')
+@extends('layouts.vote')
 
 @section('topContent')
     <div class="backDiv">
-        <a href="/votes/{{ $vote->voteId }}">&nbsp;<&nbsp;返回</a>
+        <a href="/vote/{{ $vote->voteId }}">&nbsp;<&nbsp;返回</a>
     </div>
 @endsection
 
@@ -21,12 +21,12 @@
         </thead>
         <tbody>
         @for($i=0;$i<count($players);$i++)
-        <tr>
-            <th>{{ $i+1 }}</th>
-            <td>{{ $players[$i]->xsNum }}</td>
-            <td>{{ $players[$i]->name }}</td>
-            <td>{{ $players[$i]->num }}</td>
-        </tr>
+            <tr>
+                <th>{{ $i+1 }}</th>
+                <td>{{ $players[$i]->xsNum }}</td>
+                <td>{{ $players[$i]->name }}</td>
+                <td>{{ $players[$i]->num }}</td>
+            </tr>
         @endfor
         </tbody>
     </table>

@@ -31,6 +31,21 @@ Route::get('/votes/rank/{voteId}', 'VotesController@pcRank');
 //pc端选手详情
 Route::get('/votes/one/{theId}', 'VotesController@pcOneDetail');
 
+//正式投票页
+Route::get('/vote/{voteId}', 'VotesController@detail');
+//查询
+Route::post('/vote/{voteId}', 'VotesController@detailQuery');
+//报名
+Route::get('/vote/apply/{voteId}', 'VotesController@apply');
+//报名保存
+Route::post('/vote/apply/{voteId}', 'VotesController@applyStore');
+//排名
+Route::get('/vote/rank/{voteId}', 'VotesController@rank');
+//选手详情
+Route::get('/vote/one/{theId}', 'VotesController@oneDetail');
+//提交投票
+Route::post('/vote/voteOp/{voteId}', 'VotesController@voteOp');
+
 //add vote
 Route::get('/create', 'VotesController@create');
 //save vote

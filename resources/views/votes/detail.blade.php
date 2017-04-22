@@ -1,7 +1,7 @@
-@extends('layouts.votepc')
+@extends('layouts.vote')
 
 @section('jsContent')
-    <script type="text/javascript" src="{{ asset('/js/pcDetail.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/detail.js') }}"></script>
 @endsection
 
 @section('content')
@@ -26,19 +26,18 @@
     </div>
 
     <div class="phoneBodyLine phoneBodyOp">
-        <a href="/votes/apply/{{ $vote->voteId }}" style="border-right: 1px solid #ffffff;">
+        <a href="/vote/apply/{{ $vote->voteId }}" style="border-right: 1px solid #ffffff;">
             <i class="fa fa-group"></i>&nbsp;我要报名
         </a>
-        <a href="/votes/rank/{{ $vote->voteId }}">
+        <a href="/vote/rank/{{ $vote->voteId }}">
             <i class="fa fa-bar-chart"></i>&nbsp;查看排名
         </a>
     </div>
 
     <div class="input-group" style="margin: 1rem 0;">
-        <form id="searchForm" method="post" action="/votes/{{ $vote->voteId }}" style="display: none;">
+        <form id="searchForm" method="post" action="/vote/{{ $vote->voteId }}" style="display: none;">
             {{ csrf_field() }}
             <input type="hidden" id="queryVal" name="queryVal">
-            <input type="hidden" id="checkId" name="checkId">
         </form>
         <input type="text" class="form-control" id="searchVal" placeholder="请输入选手名称或编号">
         <span class="input-group-btn">
@@ -47,6 +46,10 @@
     </div>
 
     <div class="voteList">
+        <form id="voteOpForm" method="post" action="/vote/voteOp/{{ $vote->voteId }}" style="display: none;">
+            {{ csrf_field() }}
+            <input type="hidden" id="xsId" name="xsId">
+        </form>
 
         <div class="voteListLeft">
 
@@ -56,16 +59,12 @@
                         <img src="{{ asset('/storage/voteImages/'.$players[$i]->img) }}">
                     </div>
                     <div class="voteOneTxt">
-                        <a href="/votes/one/{{ $players[$i]->voteId.'<>'.$players[$i]->xsId }}">{{ $players[$i]->xsNum.'.'.$players[$i]->name }}</a>
+                        <a href="/vote/one/{{ $players[$i]->voteId.'<>'.$players[$i]->xsId }}">{{ $players[$i]->xsNum.'.'.$players[$i]->name }}</a>
                     </div>
                     <div class="voteOneOp">
                         <div class="voteOneOpDiv">
                             <button class="voteOpBtn btn btn-sm btn-info" data-id="{{ $players[$i]->xsId }}">
-                                @if($players[$i]->state == '1')
-                                    <i class="fa fa-thumbs-o-up"></i> 投票
-                                @else
-                                    <i class="fa fa-check"></i> 审核
-                                @endif
+                                <i class="fa fa-thumbs-o-up"></i> 投票
                             </button>
                         </div>
                         <div class="voteOneNums">{{ $players[$i]->num }}票</div>
@@ -83,16 +82,12 @@
                         <img src="{{ asset('/storage/voteImages/'.$players[$i]->img) }}">
                     </div>
                     <div class="voteOneTxt">
-                        <a href="/votes/one/{{ $players[$i]->voteId.'<>'.$players[$i]->xsId }}">{{ $players[$i]->xsNum.'.'.$players[$i]->name }}</a>
+                        <a href="/vote/one/{{ $players[$i]->voteId.'<>'.$players[$i]->xsId }}">{{ $players[$i]->xsNum.'.'.$players[$i]->name }}</a>
                     </div>
                     <div class="voteOneOp">
                         <div class="voteOneOpDiv">
                             <button class="voteOpBtn btn btn-sm btn-info" data-id="{{ $players[$i]->xsId }}">
-                                @if($players[$i]->state == '1')
-                                    <i class="fa fa-thumbs-o-up"></i> 投票
-                                @else
-                                    <i class="fa fa-check"></i> 审核
-                                @endif
+                                <i class="fa fa-thumbs-o-up"></i> 投票
                             </button>
                         </div>
                         <div class="voteOneNums">{{ $players[$i]->num }}票</div>

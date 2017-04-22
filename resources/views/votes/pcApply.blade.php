@@ -18,8 +18,8 @@
         <hr>
 
         <div class="form-group">
-            <label for="name">{{ $vote->playerName }}名称</label>
-            <input type="text" class="form-control" id="name" name="name" tip="{{ $vote->playerName }}名称">
+            <label for="name">选手名称</label>
+            <input type="text" class="form-control" id="name" name="name" tip="选手名称">
         </div>
 
         <div class="form-group">

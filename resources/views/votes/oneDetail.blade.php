@@ -1,8 +1,8 @@
-@extends('layouts.votepc')
+@extends('layouts.vote')
 
 @section('topContent')
     <div class="backDiv">
-        <a href="/votes/{{ $vote->voteId }}">&nbsp;<&nbsp;返回</a>
+        <a href="/vote/{{ $vote->voteId }}">&nbsp;<&nbsp;返回</a>
     </div>
 @endsection
 

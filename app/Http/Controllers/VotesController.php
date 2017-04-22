@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Vote;
 use App\Votedetail;
+use App\Votedaily;
 
 class VotesController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');//->except(['pcDetail']);
+        $this->middleware('auth')->except(['detail','detailQuery','apply','applyStore','rank','oneDetail','voteOp']);
     }
 
     //首页
@@ -149,9 +150,146 @@ class VotesController extends Controller
     }
 
     //投票页
-    public function detail()
+    public function detail($voteId)
     {
+        $vote = Vote::where('voteId', $voteId)->first();
 
+        $players = Votedetail::where('voteId', $voteId)->where('state', 1)->orderBy('xsNum', 'asc')->get();
+
+        $res = '';
+
+        return view('votes.detail', compact('vote','players', 'res'));
+    }
+
+    //查询
+    public function detailQuery($voteId)
+    {
+        $request = request();
+
+        if(!$request->queryVal) return $this->detail($voteId);
+
+        $queryVal = $request->queryVal;
+        $vote = Vote::where('voteId', $voteId)->first();
+
+        $players = Votedetail::where('voteId', $voteId)->where('state',1)->where(function ($query) use ($queryVal) {
+            $query->where('xsNum', $queryVal)
+                ->orWhere('name', 'like', '%'.$queryVal.'%');
+        })->orderBy('xsNum','asc')->get();
+
+        $res = '';
+
+        return view('votes.detail', compact('vote','players', 'res'));
+    }
+
+    //报名
+    public function apply($voteId)
+    {
+        $vote   = Vote::where('voteId', $voteId)->first();
+
+        $openid = $this->getUserInfo();
+        $flag   = '0';
+        $now    = Carbon::now()->toDateTimeString();
+
+        if($now < $vote->startTime){
+            $flag = '3';
+        }
+
+        if($now > $vote->endTime){
+            $flag = '4';
+        }
+
+        if($flag == '0'){
+            $num    = Votedetail::where('voteId', $voteId)->where('xsId', $openid)->count();
+
+            if($num > 0){
+                $state = Votedetail::where('voteId', $voteId)->where('xsId', $openid)->value('state');
+
+                if($state == '0'){
+                    $flag = '1';
+                }else{
+                    $flag = '2';
+                }
+            }
+        }
+
+        return view('votes.apply', compact('vote', 'flag'));
+    }
+
+    //报名保存
+    public function applyStore($voteId)
+    {
+        $xsId = $this->getUserInfo();
+
+        if(Votedetail::where('voteId', $voteId)->where('xsId', $xsId)->count() > 0){
+            return $this->apply($voteId);
+        }
+
+        $request = request();
+
+        $file       = $request->file('img');
+        $fileName   = time().str_random(5).'.'.$file->getClientOriginalExtension();
+        $file->move('storage/voteImages', $fileName);
+
+        $player = Votedetail::where('voteId', $voteId)->orderBy('created_at','desc')->first();
+        $xsNum = 1;
+
+        if($player && $player->xsNum) $xsNum = $player->xsNum + 1;
+
+        $voteDetail = new Votedetail;
+
+        $voteDetail->voteId         = $voteId;
+        $voteDetail->xsId           = $xsId;
+        $voteDetail->xsNum          = $xsNum;
+        $voteDetail->name           = $request->name;
+        $voteDetail->introduction   = $request->introduction;
+        $voteDetail->img            = $fileName;
+        $voteDetail->state          = 0;
+        $voteDetail->num            = 0;
+
+        $voteDetail->save();
+
+        return $this->apply($voteId);
+    }
+
+    //排名
+    public function rank($voteId)
+    {
+        $vote = Vote::where('voteId', $voteId)->first();
+
+        $players = Votedetail::where('voteId', $voteId)->where('state', 1)->orderBy('num','desc')->get();
+
+        return view('votes.rank', compact('vote','players'));
+    }
+
+    //选手详情
+    public function oneDetail($theId)
+    {
+        $idArr = explode('<>', $theId);
+        $voteId = $idArr[0];
+        $playerId = $idArr[1];
+
+        $vote = Vote::where('voteId', $voteId)->first();
+
+        $player = Votedetail::where('xsId', $playerId)->first();
+
+        return view('votes.oneDetail', compact('vote','player'));
+    }
+
+    //提交投票
+    public function voteOp($voteId)
+    {
+        $wxId = $this->getUserInfo();
+        $xsId = request('xsId');
+
+        $vote = Vote::where('voteId', $voteId)->first();
+        $dayNum = $vote->dayNum;
+        $playerNum = $vote->playerNum;
+
+        $res = $this->dayVote($wxId,$xsId,$dayNum,$playerNum,$voteId);
+
+        $players = Votedetail::where('voteId', $voteId)->where('state', 1)->orderBy('xsNum', 'asc')->get();
+
+        return view('votes.detail', compact('vote','players', 'res'));
     }
 
     //投票添加页面
@@ -203,5 +341,107 @@ class VotesController extends Controller
         }
 
         return $dt->toDateTimeString();
+    }
+
+    //获取用户信息
+    private function getUserInfo()
+    {
+        return 'test0422';
+    }
+
+    //投票控制器
+    private function dayVote($wxId,$xsId,$dNum,$pNum,$voteId)
+    {
+        //先看一下当前微信用户有没有进行投票（包括历史投票）
+        $flag_1 = Votedaily::where('voteId', $voteId)->where('wxId', $wxId)->count();
+        $daily  = new Votedaily;
+        $today  = Carbon::now()->toDateString();
+        $nowNum = Votedetail::where('voteId', $voteId)->where('xsId', $xsId)->value('num');
+
+        //如果进行过投票
+        if($flag_1 > 0){
+            //再看今天有没有进行投票
+            $flag_2 = Votedaily::where('voteId', $voteId)->where('wxId', $wxId)->where('voteDay', $today)->count();
+
+            //如果今天投过票
+            if($flag_2 > 0){
+                $flag_3 = Votedaily::where('voteId', $voteId)->where('wxId', $wxId)->where('voteDay', $today)->where('xsId', $xsId)->value('num');
+                $flag_4 = Votedaily::where('voteId', $voteId)->where('wxId', $wxId)->where('voteDay', $today)->sum('num');
+
+                //如果今天已达最大投票数
+                if($flag_4 >= $dNum){
+                    return '今天的投票数已达最大值！';
+                }
+
+                //如果今天投了票，再看这个微信号是不是给当前选手投的票
+                //如果今天是给当前选手投的票
+                if($flag_3){
+                    if($flag_3 >= $pNum){
+                        return '今天给该选手的投票数已达最大值！';
+                    }else{
+                        Votedaily::where('voteId', $voteId)->where('wxId', $wxId)->where('xsId', $xsId)->update(['num' => $flag_3 + 1]);
+                        Votedetail::where('voteId', $voteId)->where('xsId', $xsId)->update(['num' => $nowNum + 1]);
+
+                        return '投票成功！';
+                    }
+                }else{
+                    //如果今天不是给当前选手投的票
+                    //看一下之前有没有给当前选手投过票
+                    $flag_5 = Votedaily::where('voteId', $voteId)->where('wxId', $wxId)->where('xsId', $xsId)->count();
+
+                    //投过就更新
+                    if($flag_5 > 0){
+                        Votedaily::where('voteId', $voteId)->where('wxId', $wxId)->where('xsId', $xsId)->update(['num' => 1, 'voteDay' => $today]);
+                    }else{
+                        //没投过就添加
+                        $daily->voteId  = $voteId;
+                        $daily->wxId    = $wxId;
+                        $daily->xsId    = $xsId;
+                        $daily->voteDay = $today;
+                        $daily->num     = 1;
+
+                        $daily->save();
+                    }
+
+                    Votedetail::where('voteId', $voteId)->where('xsId', $xsId)->update(['num' => $nowNum + 1]);
+
+                    return '投票成功！';
+                }
+            }else{
+                //如果今天没投票，再看之前这个微信号有没有给当前选手投过票
+                $flag_6 = Votedaily::where('voteId', $voteId)->where('wxId', $wxId)->where('xsId', $xsId)->count();
+
+                //投过就更新
+                if($flag_6 > 0){
+                    Votedaily::where('voteId', $voteId)->where('wxId', $wxId)->where('xsId', $xsId)->update(['num' => 1, 'voteDay' => $today]);
+                }else{
+                    //没投过就添加
+                    $daily->voteId  = $voteId;
+                    $daily->wxId    = $wxId;
+                    $daily->xsId    = $xsId;
+                    $daily->voteDay = $today;
+                    $daily->num     = 1;
+
+                    $daily->save();
+                }
+
+                Votedetail::where('voteId', $voteId)->where('xsId', $xsId)->update(['num' => $nowNum + 1]);
+
+                return '投票成功！';
+            }
+        }else{
+            //没有进行任何投票
+            $daily->voteId  = $voteId;
+            $daily->wxId    = $wxId;
+            $daily->xsId    = $xsId;
+            $daily->voteDay = $today;
+            $daily->num     = 1;
+
+            $daily->save();
+
+            Votedetail::where('voteId', $voteId)->where('xsId', $xsId)->update(['num' => $nowNum + 1]);
+
+            return '投票成功！';
+        }
     }
 }
