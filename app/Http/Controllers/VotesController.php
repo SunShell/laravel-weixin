@@ -154,7 +154,8 @@ class VotesController extends Controller
     {
         $arr = explode('@v@', $twoId);
 
-        session('openid', $arr[1]);
+        session('openid', 'no');
+        session(['openid' => $arr[1]]);
 
         return $this->detail($arr[0]);
     }
