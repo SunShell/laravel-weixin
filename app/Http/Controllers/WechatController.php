@@ -24,16 +24,6 @@ class WechatController extends Controller
             switch ($message->MsgType) {
                 case 'text':
                     switch($message->Content){
-                        case '测试':
-                            $news = new News([
-                                'title'         => '铝融网测试投票功能',
-                                'description'   => '铝融网深夜测试投票功能，加油！'.$message->FromUserName,
-                                'url'           => 'http://www.lvshangwang.com/vote/14928798720w7kinAGRW',
-                                'image'         => 'http://www.lvshangwang.com/storage/topImages/1492879872NeajM.jpg'
-                            ]);
-
-                            $wechat->staff->message($news)->to($message->FromUserName)->send();
-                            break;
                         case '最美妈妈':
                             $image = new Image(['media_id' => '18gcYy6GNI26QOrkRRtmIgK-gNmXA1nnxfeHVVLBuO8']);
 

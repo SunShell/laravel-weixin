@@ -62,3 +62,5 @@ Route::get('/logout', 'SessionsController@destroy');
 Route::any('/wechat', 'WechatController@serve');
 //获取微信图片素材
 Route::get('/photos', 'MaterialsController@photos');
+//获取微信文章素材
+Route::get('/articles', 'MaterialsController@articles');

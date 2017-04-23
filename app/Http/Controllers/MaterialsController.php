@@ -21,4 +21,11 @@ class MaterialsController extends Controller
 
         return $photos;
     }
+
+    public function articles()
+    {
+        $articles = $this->material->lists('news');
+
+        return $articles;
+    }
 }
