@@ -45,7 +45,6 @@ class MenuController extends Controller
             ],
             [
                 "name"          => "铝融活动",
-                "sub_button"    => []
             ]
         ];
 
