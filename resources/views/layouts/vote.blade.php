@@ -16,22 +16,28 @@
 </head>
 
 <body>
-    <div class="phoneBody">
-        @yield('topContent')
+    @if(!session('openid') || session('openid') == 'no')
         <div style="width: 100%;">
-            <img src="{{ asset('/storage/topImages/'.$vote->topImg) }}" style="width: 100%;">
+            <img src="{{ asset('/storage/topImages/1492930162WpBkK.jpg') }}" style="width: 100%;">
         </div>
-        <div class="phoneBodyContainer">
-            <div class="phoneBodyTitle">
-                活动名称：{{ $vote->name }}
+    @else
+        <div class="phoneBody">
+            @yield('topContent')
+            <div style="width: 100%;">
+                <img src="{{ asset('/storage/topImages/'.$vote->topImg) }}" style="width: 100%;">
             </div>
+            <div class="phoneBodyContainer">
+                <div class="phoneBodyTitle">
+                    活动名称：{{ $vote->name }}
+                </div>
 
-            @yield('content')
-            <div style="clear: both;"></div>
-        </div>       
-    </div>
+                @yield('content')
+                <div style="clear: both;"></div>
+            </div>
+        </div>
 
-    <div class="voteFooter">承办方：铝融网（www.lrw360.com）</div>
+        <div class="voteFooter">承办方：铝融网（www.lrw360.com）</div>
+    @endif
 
     @if($res)
         <script type="text/javascript">

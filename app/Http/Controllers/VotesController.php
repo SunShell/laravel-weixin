@@ -163,15 +163,13 @@ class VotesController extends Controller
     //投票页
     public function detail($voteId)
     {
-        return session('openid');
-
-        /*$vote = Vote::where('voteId', $voteId)->first();
+        $vote = Vote::where('voteId', $voteId)->first();
 
         $players = Votedetail::where('voteId', $voteId)->where('state', 1)->orderBy('xsNum', 'asc')->get();
 
         $res = '';
 
-        return view('votes.detail', compact('vote','players', 'res'));*/
+        return view('votes.detail', compact('vote','players', 'res'));
     }
 
     //查询
@@ -365,7 +363,7 @@ class VotesController extends Controller
     //获取用户信息
     private function getUserInfo()
     {
-        return 'test0422';
+        return session('openid');
     }
 
     //投票控制器
