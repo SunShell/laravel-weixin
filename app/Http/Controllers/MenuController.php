@@ -57,4 +57,14 @@ class MenuController extends Controller
 
         $this->menu->add($buttons);
     }
+
+    public function getMenu()
+    {
+        return $this->menu->all();
+    }
+
+    public function delMenu($menuId)
+    {
+        return $this->menu->destroy($menuId);
+    }
 }

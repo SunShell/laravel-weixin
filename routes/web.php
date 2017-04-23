@@ -68,3 +68,7 @@ Route::get('/photos', 'MaterialsController@photos');
 Route::get('/articles', 'MaterialsController@articles');
 //创建自定义菜单
 Route::get('/menu', 'MenuController@menu');
+//获取自定义菜单
+Route::get('/menu/get', 'MenuController@getMenu');
+//删除自定义菜单
+Route::get('/menu/del/{menuId}', 'MenuController@delMenu');
