@@ -11,7 +11,7 @@ class VotesController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except(['detail','detailQuery','apply','applyStore','rank','oneDetail','voteOp']);
+        $this->middleware('auth')->except(['detail','detailQuery','apply','applyStore','rank','oneDetail','voteOp','verify']);
     }
 
     //首页
@@ -150,16 +150,27 @@ class VotesController extends Controller
         return view('votes/pcOneDetail', compact('vote','player'));
     }
 
+    public function verify($twoId)
+    {
+        $arr = explode('@v@', $twoId);
+
+        session('openid', $arr[1]);
+
+        return $this->detail($arr[0]);
+    }
+
     //投票页
     public function detail($voteId)
     {
-        $vote = Vote::where('voteId', $voteId)->first();
+        return session('openid');
+
+        /*$vote = Vote::where('voteId', $voteId)->first();
 
         $players = Votedetail::where('voteId', $voteId)->where('state', 1)->orderBy('xsNum', 'asc')->get();
 
         $res = '';
 
-        return view('votes.detail', compact('vote','players', 'res'));
+        return view('votes.detail', compact('vote','players', 'res'));*/
     }
 
     //查询

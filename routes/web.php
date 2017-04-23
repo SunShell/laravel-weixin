@@ -31,6 +31,8 @@ Route::get('/votes/rank/{voteId}', 'VotesController@pcRank');
 //pc端选手详情
 Route::get('/votes/one/{theId}', 'VotesController@pcOneDetail');
 
+//跳转页
+Route::get('/verify/{twoId}', 'VotesController@verify');
 //正式投票页
 Route::get('/vote/{voteId}', 'VotesController@detail');
 //查询
@@ -64,3 +66,5 @@ Route::any('/wechat', 'WechatController@serve');
 Route::get('/photos', 'MaterialsController@photos');
 //获取微信文章素材
 Route::get('/articles', 'MaterialsController@articles');
+//创建自定义菜单
+Route::get('/menu', 'MenuController@menu');
