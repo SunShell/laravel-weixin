@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use EasyWeChat\Foundation\Application;
-use Illuminate\Http\Request;
 
 class MenuController extends Controller
 {
@@ -44,7 +43,16 @@ class MenuController extends Controller
                 ],
             ],
             [
+                "type"          => "click",
                 "name"          => "铝融活动",
+                "key"           => "ready for this",
+                /*"sub_button"    => [
+                    [
+                        "type" => "click",
+                        "name" => "测试",
+                        "key" => "zmmm"
+                    ]
+                ]*/
             ]
         ];
 
