@@ -375,6 +375,15 @@ class VotesController extends Controller
         $today  = Carbon::now()->toDateString();
         $nowNum = Votedetail::where('voteId', $voteId)->where('xsId', $xsId)->value('num');
 
+        $vote   = Vote::where('voteId', $voteId)->first();
+        if(substr($vote->startTime,0,10) > $today){
+            return '投票尚未开始！';
+        }
+
+        if(substr($vote->endTime) < $today){
+            return '投票已经结束！';
+        }
+
         //如果进行过投票
         if($flag_1 > 0){
             //再看今天有没有进行投票
