@@ -157,7 +157,7 @@ class VotesController extends Controller
         session('openid', 'no');
         session(['openid' => $arr[1]]);
 
-        return $this->detail($arr[0]);
+        return redirect('/vote/'.$arr[0]);
     }
 
     //投票页
