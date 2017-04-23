@@ -71,4 +71,4 @@ Route::get('/menu', 'MenuController@menu');
 //获取自定义菜单
 Route::get('/menu/get', 'MenuController@getMenu');
 //删除自定义菜单
-Route::get('/menu/del/{menuId}', 'MenuController@delMenu');
+Route::get('/menu/del', 'MenuController@delMenu');

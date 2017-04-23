@@ -45,13 +45,7 @@ class MenuController extends Controller
             ],
             [
                 "name"          => "铝融活动",
-                "sub_button"    => [
-                    [
-                        "type" => "click",
-                        "name" => "测试",
-                        "key" => "zmmm"
-                    ]
-                ]
+                "sub_button"    => []
             ]
         ];
 
@@ -60,11 +54,11 @@ class MenuController extends Controller
 
     public function getMenu()
     {
-        return $this->menu->current();
+        return $this->menu->all();
     }
 
-    public function delMenu($menuId)
+    public function delMenu()
     {
-        return $this->menu->destroy($menuId);
+        return $this->menu->destroy();
     }
 }
