@@ -42,18 +42,16 @@ class MenuController extends Controller
                     ],
                 ],
             ],
-            [
-                "type"          => "click",
+            /*[
                 "name"          => "铝融活动",
-                "key"           => "ready for this",
-                /*"sub_button"    => [
+                "sub_button"    => [
                     [
                         "type" => "click",
                         "name" => "测试",
                         "key" => "zmmm"
                     ]
-                ]*/
-            ]
+                ]
+            ]*/
         ];
 
         $this->menu->add($buttons);
