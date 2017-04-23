@@ -60,7 +60,7 @@ class MenuController extends Controller
 
     public function getMenu()
     {
-        return $this->menu->all();
+        return $this->menu->current();
     }
 
     public function delMenu($menuId)
