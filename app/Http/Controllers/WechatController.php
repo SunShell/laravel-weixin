@@ -22,6 +22,25 @@ class WechatController extends Controller
 
         $wechat->server->setMessageHandler(function($message) use ($userApi,$wechat){
             switch ($message->MsgType) {
+                case 'event':
+                    switch ($message->Event){
+                        case 'CLICK':
+                            if($message->EventKey == 'zmmm'){
+                                $news = new News([
+                                    'title'         => '铝融网测试投票功能',
+                                    'description'   => '铝融网深夜测试投票功能，加油！',
+                                    'url'           => 'http://www.lvshangwang.com/verify/14928798720w7kinAGRW@v@'.$message->FromUserName,
+                                    'image'         => 'http://www.lvshangwang.com/storage/topImages/1492879872NeajM.jpg'
+                                ]);
+
+                                $wechat->staff->message($news)->to($message->FromUserName)->send();
+                            }
+                            break;
+                        default:
+                            return $this->getDefaultMsg();
+                            break;
+                    }
+                    break;
                 case 'text':
                     switch($message->Content){
                         case '测试':

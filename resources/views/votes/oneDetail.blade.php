@@ -2,7 +2,7 @@
 
 @section('topContent')
     <div class="backDiv">
-        <a href="/vote/{{ $vote->voteId }}">&nbsp;<&nbsp;返回</a>
+        <a href="/vote/{{ $vote->voteId }}">&nbsp;<&nbsp;返回投票页</a>
     </div>
 @endsection
 
