@@ -44,7 +44,7 @@
             @if($flag == '1')
                 <div class="alert alert-info">您已经成功报名，审核通过之后将在投票页展示！</div>
             @elseif($flag == '2')
-                <div class="alert alert-success">您已经成功报名且审核通过，赶紧召集好友进行投票吧！</div>
+                <div class="alert alert-success">恭喜您，报名成功，赶紧点击右上角分享给好友来给您投票吧！</div>
             @elseif($flag == '3')
                 <div class="alert alert-danger">活动尚未开始！</div>
             @else

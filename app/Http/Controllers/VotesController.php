@@ -179,6 +179,8 @@ class VotesController extends Controller
 
         $res = '';
 
+        if(session('v_res')) $res = session('v_res');
+
         return view('votes.detail', compact('vote','players', 'res'));
     }
 
@@ -190,7 +192,6 @@ class VotesController extends Controller
         if(!$request->queryVal) return redirect('/vote/'.$voteId);
 
         $queryVal = $request->queryVal;
-        //$vote = Vote::where('voteId', $voteId)->first();
 
         $players = Votedetail::where('voteId', $voteId)->where('state',1)->where(function ($query) use ($queryVal) {
             $query->where('xsNum', $queryVal)
@@ -200,7 +201,6 @@ class VotesController extends Controller
         session()->flash('v_players', $players);
 
         return redirect('/vote/'.$voteId);
-        //return view('votes.detail', compact('vote','players', 'res'));
     }
 
     //报名
@@ -245,7 +245,7 @@ class VotesController extends Controller
         $xsId = $this->getUserInfo();
 
         if(Votedetail::where('voteId', $voteId)->where('xsId', $xsId)->count() > 0){
-            return $this->apply($voteId);
+            return redirect('/vote/apply/'.$voteId);
         }
 
         $request = request();
@@ -272,7 +272,7 @@ class VotesController extends Controller
 
         $voteDetail->save();
 
-        return $this->apply($voteId);
+        return redirect('/vote/apply/'.$voteId);
     }
 
     //排名
@@ -309,7 +309,6 @@ class VotesController extends Controller
         $wxId = $this->getUserInfo();
         $xsId = request('xsId');
 
-        $vote = Vote::where('voteId', $voteId)->first();
         $dayNum = $vote->dayNum;
         $playerNum = $vote->playerNum;
 
@@ -317,7 +316,10 @@ class VotesController extends Controller
 
         $players = Votedetail::where('voteId', $voteId)->where('state', 1)->orderBy('xsNum', 'asc')->get();
 
-        return view('votes.detail', compact('vote','players', 'res'));
+        session()->flash('v_res',$res);
+        session()->flash('v_players', $players);
+
+        return redirect('/vote/'.$voteId);
     }
 
     //投票添加页面
