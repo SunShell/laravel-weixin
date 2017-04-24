@@ -17,9 +17,7 @@
 
 <body>
     @if(!session('openid') || session('openid') == 'no')
-        <div style="width: 100%;">
-            <img src="{{ asset('/storage/topImages/1493009552oMc8j.jpg') }}" style="width: 100%;">
-        </div>
+        <img src="{{ asset('/storage/topImages/1493009552oMc8j.jpg') }}" style="width: 100%;">
     @else
         <div class="phoneBody">
             @yield('topContent')
