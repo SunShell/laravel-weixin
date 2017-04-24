@@ -20,7 +20,7 @@
 
             <div class="form-group">
                 <label for="name">我的妈妈</label>
-                <input type="text" class="form-control" id="name" name="name" tip="选手名称">
+                <input type="text" class="form-control" id="name" name="name" tip="妈妈姓名">
             </div>
 
             <div class="form-group">
