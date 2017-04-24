@@ -151,7 +151,7 @@ class VotesController extends Controller
 
         $vote = Vote::where('voteId', $voteId)->first();
 
-        $player = Votedetail::where('xsId', $playerId)->first();
+        $player = Votedetail::where('voteId', $voteId)->where('xsId', $playerId)->first();
 
         return view('votes/pcOneDetail', compact('vote','player'));
     }
