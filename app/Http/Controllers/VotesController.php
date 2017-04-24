@@ -166,27 +166,18 @@ class VotesController extends Controller
         return redirect('/vote/'.$arr[0]);
     }
 
-    public $v_players;
-    public $v_res;
-
     //投票页
     public function detail($voteId)
     {
         $vote = Vote::where('voteId', $voteId)->first();
 
-        if(count($this->v_players)){
-            $players = $this->v_players;
-            $this->v_players = array();
+        if(count(session('v_players'))){
+            $players = session('v_players');
         }else{
             $players = Votedetail::where('voteId', $voteId)->where('state', 1)->orderBy('xsNum', 'asc')->get();
         }
 
-        if($this->v_res){
-            $res = $this->v_res;
-            $this->v_res = '';
-        }else{
-            $res = '';
-        }
+        $res = '';
 
         return view('votes.detail', compact('vote','players', 'res'));
     }
@@ -206,8 +197,7 @@ class VotesController extends Controller
                 ->orWhere('name', 'like', '%'.$queryVal.'%');
         })->orderBy('xsNum','asc')->get();
 
-        $this->v_res = '';
-        $this->v_players = $players;
+        session()->flash('v_players', $players);
 
         return redirect('/vote/'.$voteId);
         //return view('votes.detail', compact('vote','players', 'res'));
