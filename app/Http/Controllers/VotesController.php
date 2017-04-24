@@ -380,7 +380,7 @@ class VotesController extends Controller
             return '投票尚未开始！';
         }
 
-        if(substr($vote->endTime) < $today){
+        if(substr($vote->endTime,0,10) < $today){
             return '投票已经结束！';
         }
 
