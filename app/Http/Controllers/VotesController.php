@@ -309,6 +309,7 @@ class VotesController extends Controller
         $wxId = $this->getUserInfo();
         $xsId = request('xsId');
 
+        $vote = Vote::where('voteId', $voteId)->first();
         $dayNum = $vote->dayNum;
         $playerNum = $vote->playerNum;
 
