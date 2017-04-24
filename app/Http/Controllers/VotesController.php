@@ -166,14 +166,27 @@ class VotesController extends Controller
         return redirect('/vote/'.$arr[0]);
     }
 
+    public $v_players;
+    public $v_res;
+
     //投票页
     public function detail($voteId)
     {
         $vote = Vote::where('voteId', $voteId)->first();
 
-        $players = Votedetail::where('voteId', $voteId)->where('state', 1)->orderBy('xsNum', 'asc')->get();
+        if(count($this->v_players)){
+            $players = $this->v_players;
+            $this->v_players = array();
+        }else{
+            $players = Votedetail::where('voteId', $voteId)->where('state', 1)->orderBy('xsNum', 'asc')->get();
+        }
 
-        $res = '';
+        if($this->v_res){
+            $res = $this->v_res;
+            $this->v_res = '';
+        }else{
+            $res = '';
+        }
 
         return view('votes.detail', compact('vote','players', 'res'));
     }
@@ -183,19 +196,21 @@ class VotesController extends Controller
     {
         $request = request();
 
-        if(!$request->queryVal) return $this->detail($voteId);
+        if(!$request->queryVal) return redirect('/vote/'.$voteId);
 
         $queryVal = $request->queryVal;
-        $vote = Vote::where('voteId', $voteId)->first();
+        //$vote = Vote::where('voteId', $voteId)->first();
 
         $players = Votedetail::where('voteId', $voteId)->where('state',1)->where(function ($query) use ($queryVal) {
             $query->where('xsNum', $queryVal)
                 ->orWhere('name', 'like', '%'.$queryVal.'%');
         })->orderBy('xsNum','asc')->get();
 
-        $res = '';
+        $this->v_res = '';
+        $this->v_players = $players;
 
-        return view('votes.detail', compact('vote','players', 'res'));
+        return redirect('/vote/'.$voteId);
+        //return view('votes.detail', compact('vote','players', 'res'));
     }
 
     //报名

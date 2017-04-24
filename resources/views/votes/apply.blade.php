@@ -19,7 +19,7 @@
             <hr>
 
             <div class="form-group">
-                <label for="name">选手名称</label>
+                <label for="name">我的妈妈</label>
                 <input type="text" class="form-control" id="name" name="name" tip="选手名称">
             </div>
 
