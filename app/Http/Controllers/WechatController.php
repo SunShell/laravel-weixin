@@ -43,7 +43,7 @@ class WechatController extends Controller
                     break;
                 case 'text':
                     switch($message->Content){
-                        case '测试':
+                        case '最美妈妈':
                             $news = new News([
                                 'title'         => '最美妈妈，母亲节送出一份爱的礼物',
                                 'description'   => '点击进入投票并转发给好友，就有机会赢得礼品一份！',
@@ -52,11 +52,6 @@ class WechatController extends Controller
                             ]);
 
                             $wechat->staff->message($news)->to($message->FromUserName)->send();
-                            break;
-                        case '最美妈妈':
-                            $image = new Image(['media_id' => '18gcYy6GNI26QOrkRRtmIgK-gNmXA1nnxfeHVVLBuO8']);
-
-                            $wechat->staff->message($image)->to($message->FromUserName)->send();
                             break;
                         case '厕所':
                             $image = new Image(['media_id' => '18gcYy6GNI26QOrkRRtmIpn9n95c2gIREY40MEzidX0']);
