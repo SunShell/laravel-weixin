@@ -29,8 +29,8 @@ class WechatController extends Controller
                                 $news = new News([
                                     'title'         => '最美妈妈，母亲节送出一份爱的礼物',
                                     'description'   => '点击进入投票并转发给好友，就有机会赢得礼品一份！',
-                                    'url'           => 'http://www.lvshangwang.com/verify/1493003174uQqbudwm5u@v@'.$message->FromUserName,
-                                    'image'         => 'http://www.lvshangwang.com/storage/topImages/1493003174L4NgV.jpg'
+                                    'url'           => 'http://www.lvshangwang.com/verify/1493022390JT13lCdFoh@v@'.$message->FromUserName,
+                                    'image'         => 'http://www.lvshangwang.com/storage/topImages/14930223905j0mS.jpg'
                                 ]);
 
                                 $wechat->staff->message($news)->to($message->FromUserName)->send();
@@ -47,8 +47,8 @@ class WechatController extends Controller
                             $news = new News([
                                 'title'         => '最美妈妈，母亲节送出一份爱的礼物',
                                 'description'   => '点击进入投票并转发给好友，就有机会赢得礼品一份！',
-                                'url'           => 'http://www.lvshangwang.com/verify/1493003174uQqbudwm5u@v@'.$message->FromUserName,
-                                'image'         => 'http://www.lvshangwang.com/storage/topImages/1493003174L4NgV.jpg'
+                                'url'           => 'http://www.lvshangwang.com/verify/1493022390JT13lCdFoh@v@'.$message->FromUserName,
+                                'image'         => 'http://www.lvshangwang.com/storage/topImages/14930223905j0mS.jpg'
                             ]);
 
                             $wechat->staff->message($news)->to($message->FromUserName)->send();
