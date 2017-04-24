@@ -28,7 +28,7 @@ function saveFun() {
     var arr = $('#img').val().split('.');
 
     if(['jpg','png','jpeg','gif','bmp'].indexOf(arr[arr.length-1]) < 0){
-        alert('请上传图片文件！');
+        alert('请上传正确格式的图片文件！');
         return false;
     }
 
