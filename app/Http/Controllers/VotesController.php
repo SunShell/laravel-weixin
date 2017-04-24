@@ -24,6 +24,12 @@ class VotesController extends Controller
         return view('votes.index', compact('activeVal','votes', 'voteName'));
     }
 
+    //php info
+    public function info()
+    {
+        return view('info');
+    }
+
     //搜索
     public function search()
     {
