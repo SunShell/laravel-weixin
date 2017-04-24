@@ -300,6 +300,8 @@ class VotesController extends Controller
 
         $res = '';
 
+        if(session('v_res')) $res = session('v_res');
+
         return view('votes.oneDetail', compact('vote','player', 'res'));
     }
 
@@ -318,9 +320,13 @@ class VotesController extends Controller
         $players = Votedetail::where('voteId', $voteId)->where('state', 1)->orderBy('xsNum', 'asc')->get();
 
         session()->flash('v_res',$res);
-        session()->flash('v_players', $players);
 
-        return redirect('/vote/'.$voteId);
+        if(request('isOne') && request('isOne') === 'yes'){
+            return redirect('/vote/one/'.$voteId.'<>'.$xsId);
+        }else{
+            session()->flash('v_players', $players);
+            return redirect('/vote/'.$voteId);
+        }
     }
 
     //投票添加页面
