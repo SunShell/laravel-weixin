@@ -25,5 +25,12 @@ function saveFun() {
 
     if(!flag) return false;
 
+    var arr = $('#img').val().split('.');
+
+    if(['jpg','png','jpeg','gif','bmp'].indexOf(arr[arr.length-1]) === -1){
+        alert('请上传图片文件！');
+        return false;
+    }
+
     $('.voteApply').submit();
 }
