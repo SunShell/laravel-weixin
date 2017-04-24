@@ -256,7 +256,7 @@ class VotesController extends Controller
         $voteDetail->name           = $request->name;
         $voteDetail->introduction   = $request->introduction;
         $voteDetail->img            = $fileName;
-        $voteDetail->state          = 0;
+        $voteDetail->state          = 1;
         $voteDetail->num            = 0;
 
         $voteDetail->save();
