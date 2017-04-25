@@ -1,6 +1,7 @@
 @extends('layouts.votepc')
 
 @section('jsContent')
+    <script type="text/javascript" src="{{ asset('/lib/layer/layer.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/pcDetail.js') }}"></script>
 @endsection
 
@@ -37,8 +38,10 @@
     <div class="input-group" style="margin: 1rem 0;">
         <form id="searchForm" method="post" action="/votes/{{ $vote->voteId }}" style="display: none;">
             {{ csrf_field() }}
-            <input type="hidden" id="queryVal" name="queryVal">
-            <input type="hidden" id="checkId" name="checkId">
+            <input type="hidden" class="forClear" id="queryVal" name="queryVal">
+            <input type="hidden" class="forClear" id="checkId" name="checkId">
+            <input type="hidden" class="forClear" id="xsId" name="xsId">
+            <input type="hidden" class="forClear" id="voteNum" name="voteNum">
         </form>
         <input type="text" class="form-control" id="searchVal" placeholder="请输入选手名称或编号">
         <span class="input-group-btn">
