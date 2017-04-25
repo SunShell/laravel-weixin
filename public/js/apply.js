@@ -25,12 +25,13 @@ function saveFun() {
 
     if(!flag) return false;
 
-    var arr = $('#img').val().split('.');
+    /*var arr = $('#img').val().split('.'),
+        hzm = arr[arr.length-1].toLowerCase();
 
-    if(['jpg','png','jpeg','gif','bmp'].indexOf(arr[arr.length-1]) < 0){
+    if(['jpg','png','jpeg','gif','bmp'].indexOf(hzm) < 0){
         alert('请上传正确格式的图片文件！');
         return false;
-    }
+    }*/
 
     $('.voteApply').submit();
 }
