@@ -53,6 +53,11 @@ class WechatController extends Controller
 
                             $wechat->staff->message($news)->to($message->FromUserName)->send();
                             break;
+                        case '手势':
+                            $image = new Image(['media_id' => '18gcYy6GNI26QOrkRRtmIp2IntNuobAn0okT37MxAss']);
+
+                            $wechat->staff->message($image)->to($message->FromUserName)->send();
+                            break;
                         case '厕所':
                             $image = new Image(['media_id' => '18gcYy6GNI26QOrkRRtmIpn9n95c2gIREY40MEzidX0']);
 
