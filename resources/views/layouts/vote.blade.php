@@ -54,8 +54,8 @@ $js = EasyWeChat::js();
 
         wx.onMenuShareTimeline({
             title   : '{{ $vote->name }}', // 分享标题
-            link    : 'http://www.lvshangwang.com/vote/1493022390JT13lCdFoh', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-            imgUrl  : 'http://www.lvshangwang.com/storage/topImages/14930223905j0mS.jpg', // 分享图标
+            link    : '{{ asset('/vote/'.$vote->voteId) }}', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            imgUrl  : '{{ asset('/storage/topImages/'.$vote->topImg) }}', // 分享图标
             success : function () {
                 // 用户确认分享后执行的回调函数
                 alert('分享成功！');
@@ -68,8 +68,8 @@ $js = EasyWeChat::js();
         wx.onMenuShareAppMessage({
             title   : '{{ $vote->name }}', // 分享标题
             desc    : '',
-            link    : 'http://www.lvshangwang.com/vote/1493022390JT13lCdFoh', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-            imgUrl  : 'http://www.lvshangwang.com/storage/topImages/14930223905j0mS.jpg', // 分享图标
+            link    : '{{ asset('/vote/'.$vote->voteId) }}', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            imgUrl  : '{{ asset('/storage/topImages/'.$vote->topImg) }}', // 分享图标
             type    : 'link', // 分享类型,music、video或link，不填默认为link
             success : function () {
                 // 用户确认分享后执行的回调函数
