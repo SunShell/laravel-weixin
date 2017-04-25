@@ -42,6 +42,7 @@
             <input type="hidden" class="forClear" id="checkId" name="checkId">
             <input type="hidden" class="forClear" id="xsId" name="xsId">
             <input type="hidden" class="forClear" id="voteNum" name="voteNum">
+            <input type="hidden" class="forClear" id="delId" name="delId">
         </form>
         <input type="text" class="form-control" id="searchVal" placeholder="请输入选手名称或编号">
         <span class="input-group-btn">
@@ -70,6 +71,9 @@
                                     <i class="fa fa-check"></i> 审核
                                 @endif
                             </button>
+                            <button class="voteDelBtn btn btn-sm btn-info" data-id="{{ $players[$i]->xsId }}">
+                                <i class="fa fa-times"></i> 删除
+                            </button>
                         </div>
                         <div class="voteOneNums">{{ $players[$i]->num }}票</div>
                     </div>
@@ -96,6 +100,9 @@
                                 @else
                                     <i class="fa fa-check"></i> 审核
                                 @endif
+                            </button>
+                            <button class="voteDelBtn btn btn-sm btn-info" data-id="{{ $players[$i]->xsId }}">
+                                <i class="fa fa-times"></i> 删除
                             </button>
                         </div>
                         <div class="voteOneNums">{{ $players[$i]->num }}票</div>

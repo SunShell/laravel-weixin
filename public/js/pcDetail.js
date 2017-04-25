@@ -24,7 +24,7 @@ function initFun() {
 
         if($(this).find('i').hasClass('fa-thumbs-o-up')){
             var _this = this;
-            layer.prompt(function(val, index){
+            layer.prompt({title: '请输入票数', formType: 1}, function(val, index){
                 if(!/^[0-9]*[1-9][0-9]*$/.test(val)){
                     alert('请输入正整数！');
                     return false;
@@ -38,5 +38,12 @@ function initFun() {
             $('#checkId').val($(this).attr('data-id'));
             $('#searchForm').submit();
         }
+    });
+
+    $('.voteDelBtn').on('click',function () {
+        $('.forClear').val('');
+        if(!confirm('删除后不可恢复，确认删除该选手吗？')) return false;
+        $('#delId').val($(this).attr('data-id'));
+        $('#searchForm').submit();
     });
 }

@@ -73,11 +73,12 @@ class VotesController extends Controller
     {
         $request = request();
 
-        if(!$request->queryVal && !$request->checkId && !$request->xsId) return $this->pcDetail($voteId);
+        if(!$request->queryVal && !$request->checkId && !$request->xsId && !$request->delId) return $this->pcDetail($voteId);
 
         $queryVal = $request->queryVal;
         $checkId = $request->checkId;
         $xsId = $request->xsId;
+        $delId = $request->delId;
 
         if($checkId){
             VoteDetail::where('voteId', $voteId)->where('xsId', $checkId)->update(['state' => 1]);
@@ -85,6 +86,10 @@ class VotesController extends Controller
             return $this->pcDetail($voteId);
         }else if($xsId){
             Votedetail::where('voteId', $voteId)->where('xsId', $xsId)->update(['num' => $request->voteNum]);
+
+            return $this->pcDetail($voteId);
+        }else if($delId){
+            Votedetail::where('voteId', $voteId)->where('xsId', $delId)->delete();
 
             return $this->pcDetail($voteId);
         }else{
