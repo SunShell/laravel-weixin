@@ -46,4 +46,11 @@ function initFun() {
         $('#delId').val($(this).attr('data-id'));
         $('#searchForm').submit();
     });
+
+    $('#toRank').on('click', function () {
+        layer.msg('加载中', {
+            icon: 16,
+            shade: 0.8
+        });
+    });
 }

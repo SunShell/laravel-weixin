@@ -30,7 +30,7 @@
         <a href="/votes/apply/{{ $vote->voteId }}" style="border-right: 1px solid #ffffff;">
             <i class="fa fa-group"></i>&nbsp;我要报名
         </a>
-        <a href="/votes/rank/{{ $vote->voteId }}">
+        <a href="/votes/rank/{{ $vote->voteId }}" id="toRank">
             <i class="fa fa-bar-chart"></i>&nbsp;查看排名
         </a>
     </div>
