@@ -149,6 +149,21 @@ class VotesController extends Controller
 
         $players = Votedetail::where('voteId', $voteId)->where('state', 1)->orderBy('num','desc')->get();
 
+        $idArr = Votedetail::where('voteId', $voteId)->where('state', 1)->pluck('xsId');
+        $idBrr = array();
+        $userService = EasyWeChat::user();
+
+        foreach ($idArr as $ids){
+            if(substr($ids,0,3) === 'pc_'){
+                $idBrr[$ids] = '后台添加';
+            }else{
+                $userInfo = $userService->get($ids);
+                $idBrr[$ids] = $userInfo->nickname;
+            }
+        }
+
+        session()->flash('v_userInfo', $idBrr);
+
         return view('votes/pcRank', compact('vote','players'));
     }
 

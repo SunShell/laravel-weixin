@@ -14,7 +14,7 @@
         <thead>
         <tr>
             <th>排名</th>
-            <th>编号</th>
+            <th>微信昵称</th>
             <th>选手名称</th>
             <th>票数</th>
         </tr>
@@ -23,7 +23,7 @@
         @for($i=0;$i<count($players);$i++)
         <tr>
             <th>{{ $i+1 }}</th>
-            <td>{{ $players[$i]->xsNum }}</td>
+            <td>{{ session('v_userInfo')[$players[$i]->xsId] }}</td>
             <td>{{ $players[$i]->name }}</td>
             <td>{{ $players[$i]->num }}</td>
         </tr>
