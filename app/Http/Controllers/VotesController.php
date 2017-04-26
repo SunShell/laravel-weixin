@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Vote;
 use App\Votedetail;
 use App\Votedaily;
+use EasyWeChat;
 
 class VotesController extends Controller
 {
