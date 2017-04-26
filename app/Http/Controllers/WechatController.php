@@ -43,6 +43,7 @@ class WechatController extends Controller
                     break;
                 case 'text':
                     switch($message->Content){
+                        case '投票':
                         case '最美妈妈':
                             $news = new News([
                                 'title'         => '最美妈妈，母亲节送出一份爱的礼物',
