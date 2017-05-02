@@ -54,6 +54,51 @@ class WechatController extends Controller
 
                             $wechat->staff->message($news)->to($message->FromUserName)->send();
                             break;
+                        case '1':
+                            $image = new Image(['media_id' => '18gcYy6GNI26QOrkRRtmItBxuwFTcvkZPLnKt6nYCS4']);
+
+                            $wechat->staff->message($image)->to($message->FromUserName)->send();
+                            break;
+                        case '2':
+                            $image = new Image(['media_id' => '18gcYy6GNI26QOrkRRtmIrmDvoukUFLDvuOvzRjatSw']);
+
+                            $wechat->staff->message($image)->to($message->FromUserName)->send();
+                            break;
+                        case '3':
+                            $image = new Image(['media_id' => '18gcYy6GNI26QOrkRRtmInWwYpViK6oZ0V58nHc49GU']);
+
+                            $wechat->staff->message($image)->to($message->FromUserName)->send();
+                            break;
+                        case '4':
+                            $image = new Image(['media_id' => '18gcYy6GNI26QOrkRRtmIqCHLdW4_gmzv2BweCh9BUU']);
+
+                            $wechat->staff->message($image)->to($message->FromUserName)->send();
+                            break;
+                        case '5':
+                            $image = new Image(['media_id' => '18gcYy6GNI26QOrkRRtmIvuoDdXLs_7-ECNyr89vnUg']);
+
+                            $wechat->staff->message($image)->to($message->FromUserName)->send();
+                            break;
+                        case '6':
+                            $image = new Image(['media_id' => '18gcYy6GNI26QOrkRRtmIkmRzehEB1mEY5UcBFLcEzk']);
+
+                            $wechat->staff->message($image)->to($message->FromUserName)->send();
+                            break;
+                        case '7':
+                            $image = new Image(['media_id' => '18gcYy6GNI26QOrkRRtmIhypprIgkQuJLF3BQCm2HHE']);
+
+                            $wechat->staff->message($image)->to($message->FromUserName)->send();
+                            break;
+                        case '8':
+                            $image = new Image(['media_id' => '18gcYy6GNI26QOrkRRtmIjOotMTzGPF5OzEVh8lOLP0']);
+
+                            $wechat->staff->message($image)->to($message->FromUserName)->send();
+                            break;
+                        case '9':
+                            $image = new Image(['media_id' => '18gcYy6GNI26QOrkRRtmImLgnNCN8d2I8npqirig5cg']);
+
+                            $wechat->staff->message($image)->to($message->FromUserName)->send();
+                            break;
                         case '树':
                             $image = new Image(['media_id' => '18gcYy6GNI26QOrkRRtmIqOyKtgg8YQfdd6POAds_z8']);
 
