@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Vote;
 use EasyWeChat;
+use App\Vote;
 use App\Autoreply;
+use App\Defaultreply;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -111,5 +112,41 @@ class WxController extends Controller
         $ar->save();
 
         return redirect('/autoReply');
+    }
+
+    public function getDr()
+    {
+        $drType = request('drType');
+        $userId = Auth::user()->name;
+        $res = Defaultreply::where('userId', $userId)->where('type', $drType)->value('content');
+
+        return response()->json(array('data' => $res), 200);
+    }
+
+    public function storeDr()
+    {
+        $drType     = request('drType');
+        $drContent  = request('drContent');
+        $userId     = Auth::user()->name;
+
+        $num = Defaultreply::where('userId', $userId)->where('type', $drType)->count();
+
+        if($num > 0){
+            $res = Defaultreply::where('userId', $userId)->where('type', $drType)->update(['content' => $drContent]);
+        }else{
+            $dr = new Defaultreply();
+
+            $dr->userId     = $userId;
+            $dr->type       = $drType;
+            $dr->content    = $drContent;
+
+            $res = $dr->save();
+        }
+
+        if($res){
+            return response()->json(array('flag' => 'yes'), 200);
+        }else{
+            return response()->json(array('flag' => 'no'), 200);
+        }
     }
 }

@@ -4,10 +4,13 @@
     <div class="container votesList">
         <input type="hidden" id="theToken" value="{{ csrf_token() }}">
         <div class="container votesListTop">
-            <input type="text" class="form-control col-lg-4" id="keyword" style="float: left;" placeholder="请输入关键词">&nbsp;&nbsp;
+            <input type="text" class="form-control col-4" id="keyword" style="float: left;" placeholder="请输入关键词">&nbsp;&nbsp;
             <button type="button" class="btn btn-primary" id="kwdQuery"><i class="fa fa-search"></i> 查询</button>&nbsp;&nbsp;
             <button type="button" class="btn btn-success" id="kwdAdd"><i class="fa fa-plus"></i> 添加</button>&nbsp;
-            <button type="button" class="btn btn-danger" id="batchDel"><i class="fa fa-times"></i> 删除</button>
+            <button type="button" class="btn btn-danger" id="batchDel"><i class="fa fa-times"></i> 删除</button>&nbsp;
+            <button type="button" class="btn btn-info" id="mrOp"><i class="fa fa-mail-forward"></i> 默认回复</button>&nbsp;
+            <button type="button" class="btn btn-info" id="gzOp"><i class="fa fa-info-circle"></i> 关注回复</button>
+
         </div>
 
         <table class="table table-hover">

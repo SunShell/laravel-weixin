@@ -87,3 +87,7 @@ Route::post('/autoReply/del', 'WxController@del');
 Route::get('/autoReply/sel/{mType}', 'WxController@sel');
 //保存
 Route::post('/autoReply/store', 'WxController@store');
+//获取默认回复数据
+Route::post('/autoReply/getDr', 'WxController@getDr');
+//保存自动回复
+Route::post('/autoReply/storeDr', 'WxController@storeDr');

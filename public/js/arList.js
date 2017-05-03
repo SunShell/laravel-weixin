@@ -201,6 +201,85 @@ function initFun() {
             }
         });
     });
+
+    //默认回复
+    $('#mrOp').on('click', function () {
+        defaultReply(0);
+    });
+
+    //关注回复
+    $('#gzOp').on('click', function () {
+        defaultReply(1);
+    });
+}
+
+//默认回复操作
+function defaultReply(type) {
+    layer.open({
+        type: 1,
+        title: type === 0 ? '默认回复' : '关注回复',
+        area: ['400px', '320px'],
+        fixed: false,
+        resize: false,
+        content: '<div style="padding: 1rem;">'+
+                    '<div class="form-group">'+
+                        '<label for="drContent">回复内容：</label>'+
+                        '<textarea class="form-control" id="drContent" name="drContent" rows="5" style="resize: none;"></textarea>'+
+                    '</div>'+
+                    '<button type="button" class="btn btn-block btn-primary" id="drSaveBtn">提 交</button>'+
+                 '</div>',
+        success: function (layero, index) {
+            drOp(type,index);
+        }
+    });
+}
+
+//默认回复相关操作
+function drOp(type,idx) {
+    //获取数据并赋值
+    $.ajax({
+        type    : 'post',
+        url     : '/autoReply/getDr',
+        headers : {
+            'X-CSRF-TOKEN'  : pageObj.theToken
+        },
+        data    : {
+            drType  : type
+        },
+        success : function (res) {
+            $('#drContent').val(res.data || '');
+        }
+    });
+
+    //保存
+    $('#drSaveBtn').on('click', function () {
+        var drContent = $('#drContent').val().trim();
+
+        if(!drContent){
+            alert('请输入回复内容！');
+            return false;
+        }
+
+        $.ajax({
+            type    : 'post',
+            url     : '/autoReply/storeDr',
+            headers : {
+                'X-CSRF-TOKEN'  : pageObj.theToken
+            },
+            data    : {
+                drType      : type,
+                drContent   : drContent
+            },
+            success : function (res) {
+                if(res.flag === 'yes'){
+                    layer.close(idx);
+                    alert('保存成功！');
+                }else{
+                    alert('保存失败！');
+                }
+            }
+        });
+    });
 }
 
 //绑定添加事件
