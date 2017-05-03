@@ -28,7 +28,7 @@
     </div>
 
     <div id="addDiv" class="notShow">
-    <form class="arAddForm" method="post" action="/">
+    <form class="arAddForm" method="post" action="/autoReply/store">
         {{ csrf_field() }}
 
         <div class="form-group row arType-all">
