@@ -103,7 +103,7 @@ class WxController extends Controller
         $ar->keywords = request('arKeyword');
         $ar->type = request('arType');
         $ar->content = request('arContent');
-        $ar->mTitle = request('arMtitle');
+        $ar->mTitle = request('arType') == '0' ? substr(request('arContent'),0,10) : request('arMtitle');
         $ar->mDescription = request('arMdescription');
         $ar->mUrl = request('arMurl');
         $ar->mImage = request('arMimage');
