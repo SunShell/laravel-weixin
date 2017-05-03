@@ -13,7 +13,7 @@ if($nNum > $totalPage) $nNum = $totalPage;
 $pI = $pageId - 2;
 if($pI < 1) $pI = 1;
 
-$nI = $pageId + 2;
+$nI = $pI + 4;
 if($nI > $totalPage) $nI = $totalPage;
 ?>
 <!doctype html>
