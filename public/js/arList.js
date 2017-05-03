@@ -293,7 +293,7 @@ function saveFun() {
 
     if(!flag) return false;
 
-
+    $(this.parentNode).submit();
 }
 
 //删除
