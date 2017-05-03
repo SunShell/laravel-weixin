@@ -31,10 +31,10 @@ class WxController extends Controller
 
         if($kwd != ''){
             $allNum = Autoreply::where('userId', $user)->where('keywords', 'like', '%'.$kwd.'%')->count();
-            $list   = Autoreply::where('userId', $user)->where('keywords', 'like', '%'.$kwd.'%')->skip(0)->take($pageSize)->get();
+            $list   = Autoreply::where('userId', $user)->where('keywords', 'like', '%'.$kwd.'%')->orderBy('created_at','desc')->skip(0)->take($pageSize)->get();
         }else{
             $allNum = Autoreply::where('userId', $user)->count();
-            $list   = Autoreply::where('userId', $user)->skip(0)->take($pageSize)->get();
+            $list   = Autoreply::where('userId', $user)->orderBy('created_at','desc')->skip(0)->take($pageSize)->get();
         }
 
         return response()->json(array('allNum'=> $allNum, 'pageData' => $list), 200);
@@ -49,9 +49,9 @@ class WxController extends Controller
         $user = Auth::user()->name;
 
         if($kwd != ''){
-            $list = Autoreply::where('userId', $user)->where('keywords', 'like', '%'.$kwd.'%')->skip($pageId)->take($pageSize)->get();
+            $list = Autoreply::where('userId', $user)->where('keywords', 'like', '%'.$kwd.'%')->orderBy('created_at','desc')->skip($pageId)->take($pageSize)->get();
         }else {
-            $list = Autoreply::where('userId', $user)->skip($pageId)->take($pageSize)->get();
+            $list = Autoreply::where('userId', $user)->orderBy('created_at','desc')->skip($pageId)->take($pageSize)->get();
         }
 
         return response()->json(array('pageData' => $list), 200);
