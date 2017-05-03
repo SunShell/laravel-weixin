@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Autoreply;
 use EasyWeChat\Message\Image;
+use EasyWeChat\Message\Material;
 use EasyWeChat\Message\News;
-use Illuminate\Http\Request;
 
 class WechatController extends Controller
 {
@@ -42,7 +43,53 @@ class WechatController extends Controller
                     }
                     break;
                 case 'text':
-                    switch($message->Content){
+                    $val = $message->Content;
+                    $uid = 'admin';
+                    $num = Autoreply::where('userId', $uid)->where('keywords', $val)->count();
+
+                    if($num > 0){
+                        $arr = Autoreply::where('userId', $uid)->where('keywords', $val)->first();
+
+                        switch ($arr->type){
+                            case '0':
+                                return $arr->content;
+                                break;
+                            case '1':
+                                $image = new Image(['media_id' => $arr->content]);
+
+                                $wechat->staff->message($image)->to($message->FromUserName)->send();
+                                break;
+                            case '2':
+                                $news = new Material('mpnews', $arr->content);
+
+                                $wechat->staff->message($news)->to($message->FromUserName)->send();
+                                break;
+                            case '3':
+                                $news = new News([
+                                    'title'         => $arr->mTitle,
+                                    'description'   => $arr->mDescription,
+                                    'url'           => asset('/verify/'.$arr->mUrl.'@v@'.$message->FromUserName),
+                                    'image'         => asset('/storage/topImages/'.$arr->mImage)
+                                ]);
+
+                                $wechat->staff->message($news)->to($message->FromUserName)->send();
+                                break;
+                            case '4':
+                                $news = new News([
+                                    'title'         => $arr->mTitle,
+                                    'description'   => $arr->mDescription,
+                                    'url'           => $arr->mUrl,
+                                    'image'         => $arr->mImage
+                                ]);
+
+                                $wechat->staff->message($news)->to($message->FromUserName)->send();
+                                break;
+                        }
+                    }else{
+                        return $this->getDefaultMsg();
+                    }
+
+                    /*switch($message->Content){
                         case '投票':
                         case '最美妈妈':
                             $news = new News([
@@ -54,7 +101,7 @@ class WechatController extends Controller
 
                             $wechat->staff->message($news)->to($message->FromUserName)->send();
                             break;
-                        case '1':
+                        case '1;':
                             $image = new Image(['media_id' => '18gcYy6GNI26QOrkRRtmItBxuwFTcvkZPLnKt6nYCS4']);
 
                             $wechat->staff->message($image)->to($message->FromUserName)->send();
@@ -142,7 +189,7 @@ class WechatController extends Controller
                         default:
                             return $this->getDefaultMsg();
                             break;
-                    }
+                    }*/
                     break;
                 default:
                     return $this->getDefaultMsg();
