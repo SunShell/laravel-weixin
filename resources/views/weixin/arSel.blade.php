@@ -51,7 +51,7 @@ if($nI > $totalPage) $nI = $totalPage;
         @foreach($lists as $list)
         <tr>
             @if($pageArr[0] == '1')
-                <td><a href="http://read.html5.qq.com/image?src=forum&q=5&r=0&imgflag=7&imageUrl={{ $list->url }}" target="_blank">{{ $list->name }}</a></td>
+                <td>{{ $list->name }}</td>
                 <td class="text-center">
                     <button class="btn btn-sm btn-primary btnSel" data-str="{{ $list->name.chr(2).$list->media_id }}">选择</button>
                 </td>
