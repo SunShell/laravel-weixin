@@ -51,7 +51,7 @@ if($nI > $totalPage) $nI = $totalPage;
         @foreach($lists as $list)
         <tr>
             @if($pageArr[0] == '1')
-                <td><a href="{{ str_replace('mmbiz.qpic.cn', 'mmbiz.qlogo.cn', $list->url) }}" target="_blank">{{ $list->name }}</a></td>
+                <td><a href="{{ str_replace('http://mmbiz.qpic.cn', 'https://mmbiz.qlogo.cn', $list->url) }}" target="_blank">{{ $list->name }}</a></td>
                 <td class="text-center">
                     <button class="btn btn-sm btn-primary btnSel" data-str="{{ $list->name.chr(2).$list->media_id }}">选择</button>
                 </td>
