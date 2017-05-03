@@ -170,6 +170,7 @@ h6, .h6 {
 /* 翻页 */
 .votesList .pageBar {
     text-align: center;
+    margin-bottom: 15px;
 }
 
 .votesList .pageBar a {
