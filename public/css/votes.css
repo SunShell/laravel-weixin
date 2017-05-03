@@ -132,7 +132,7 @@ h6, .h6 {
     width: 100%;
 }
 
-.votesList .votesListTop .btn-danger {
+.votesList .votesListTop .btn {
     cursor: pointer;
 }
 
@@ -165,4 +165,23 @@ h6, .h6 {
 .voteForm {
     width: 50%;
     font-size: 0.8rem;
+}
+
+/* 翻页 */
+.votesList .pageBar {
+    text-align: center;
+}
+
+.votesList .pageBar a {
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.votesList .pageBar a:hover {
+    color: #FFFFFF;
+}
+
+.votesList .pageBar .nowPage {
+    border-color: #229ffd;
+    background: #229ffd;
 }

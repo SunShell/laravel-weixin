@@ -12,6 +12,8 @@
     @if($activeVal == 'voteForm')
         <link rel="stylesheet" href="css/calendar.css">
         <link rel="stylesheet" href="lib/umeditor/themes/default/css/umeditor.css">
+    @elseif($activeVal == 'arList')
+        <link rel="stylesheet" href="css/arAdd.css">
     @endif
 
     <!-- Custom styles for this template -->
@@ -24,6 +26,8 @@
         <script type="text/javascript" src="lib/umeditor/umeditor.config.js"></script>
         <script type="text/javascript" src="lib/umeditor/umeditor.js"></script>
         <script type="text/javascript" src="lib/umeditor/lang/zh-cn/zh-cn.js"></script>
+    @elseif($activeVal == 'arList')
+        <script type="text/javascript" src="/lib/layer/layer.js"></script>
     @endif
 </head>
 

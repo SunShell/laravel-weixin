@@ -11,11 +11,11 @@
 |
 */
 
-//index
+//首页
 Route::get('/', 'VotesController@index')->name('home');
-//search
+//搜索
 Route::post('/', 'VotesController@search');
-//delete
+//删除
 Route::post('/delete', 'VotesController@destroy');
 //php info
 Route::get('/info', 'VotesController@info');
@@ -33,7 +33,7 @@ Route::get('/votes/rank/{voteId}', 'VotesController@pcRank');
 //pc端选手详情
 Route::get('/votes/one/{theId}', 'VotesController@pcOneDetail');
 
-//跳转页
+//验证跳转页
 Route::get('/verify/{twoId}', 'VotesController@verify');
 //正式投票页
 Route::get('/vote/{voteId}', 'VotesController@detail');
@@ -50,16 +50,16 @@ Route::get('/vote/one/{theId}', 'VotesController@oneDetail');
 //提交投票
 Route::post('/vote/voteOp/{voteId}', 'VotesController@voteOp');
 
-//add vote
+//添加投票
 Route::get('/create', 'VotesController@create');
-//save vote
+//保存投票
 Route::post('/create', 'VotesController@store');
 
-//login
+//登录
 Route::get('/login', 'SessionsController@create')->name('login');
 Route::post('/login', 'SessionsController@store');
 
-//logout
+//登出
 Route::get('/logout', 'SessionsController@destroy');
 
 //微信接口
@@ -74,3 +74,16 @@ Route::get('/menu', 'MenuController@menu');
 Route::get('/menu/get', 'MenuController@getMenu');
 //删除自定义菜单
 Route::get('/menu/del', 'MenuController@delMenu');
+
+//微信自动回复视图
+Route::get('/autoReply', 'WxController@autoReply');
+//获取页面信息
+Route::post('/autoReply/getPageInfo', 'WxController@getPageInfo');
+//翻页
+Route::post('/autoReply/getPaging', 'WxController@getPaging');
+//删除
+Route::post('/autoReply/del', 'WxController@del');
+//获取素材
+Route::get('/autoReply/sel/{mType}', 'WxController@sel');
+//保存
+Route::post('/autoReply/store', 'WxController@store');
