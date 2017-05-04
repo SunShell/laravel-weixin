@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use EasyWeChat\Foundation\Application;
 
 class MaterialsController extends Controller
 {
     public $material;
 
-    public function __construct(Application $material)
+    public function __construct()
     {
         $this->middleware('auth');
-        $this->material = $material->material;
+
+        $wcc = new WechatconfigsController();
+        $options = $wcc->getOptions();
+
+        $this->material = new Application($options);
     }
 
     public function photos()
