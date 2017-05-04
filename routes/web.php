@@ -63,7 +63,7 @@ Route::post('/login', 'SessionsController@store');
 Route::get('/logout', 'SessionsController@destroy');
 
 //微信接口
-Route::any('/wechat', 'WechatController@serve');
+Route::any('/wechat/{gzptId}', 'WechatController@init');
 //获取微信图片素材
 Route::get('/photos', 'MaterialsController@photos');
 //获取微信文章素材

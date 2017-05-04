@@ -4,25 +4,32 @@ namespace App\Http\Controllers;
 
 use App\Autoreply;
 use App\Defaultreply;
+use App\Wechatconfig;
 use EasyWeChat\Message\Image;
 use EasyWeChat\Message\Material;
 use EasyWeChat\Message\News;
+use EasyWeChat\Foundation\Application;
 
 class WechatController extends Controller
 {
-    /**
-     * 处理微信的请求消息
-     *
-     * @return string
-     */
+    private $userId;
+    private $options;
+
+    public function init($gzptId)
+    {
+        $this->userId = env('WECHAT_USERID_'.$gzptId, 'nobody');
+
+        $this->options = $this->getOptions();
+
+        $this->serve();
+    }
+
     public function serve()
     {
+        $wechat = new Application($this->options);
+        $userId = $this->userId;
 
-        $wechat = app('wechat');
-
-        $userApi = $wechat->user;
-
-        $wechat->server->setMessageHandler(function($message) use ($userApi,$wechat){
+        $wechat->server->setMessageHandler(function($message) use ($wechat,$userId){
             switch ($message->MsgType) {
                 case 'event':
                     switch ($message->Event){
@@ -48,11 +55,10 @@ class WechatController extends Controller
                     break;
                 case 'text':
                     $val = $message->Content;
-                    $uid = 'admin';
-                    $num = Autoreply::where('userId', $uid)->where('keywords', $val)->count();
+                    $num = Autoreply::where('userId', $userId)->where('keywords', $val)->count();
 
                     if($num > 0){
-                        $arr = Autoreply::where('userId', $uid)->where('keywords', $val)->first();
+                        $arr = Autoreply::where('userId', $userId)->where('keywords', $val)->first();
 
                         switch ($arr->type){
                             case '0':
@@ -102,14 +108,38 @@ class WechatController extends Controller
         return $wechat->server->serve();
     }
 
+    //获取默认回复
     private function getDefaultMsg($type)
     {
-        $res = Defaultreply::where('userId', 'admin')->where('type', $type)->value('content');
+        $userId = $this->userId;
+
+        $res = Defaultreply::where('userId', $userId)->where('type', $type)->value('content');
 
         if(!$res){
             return '您好！';
         }else{
             return $res;
         }
+    }
+
+    //获取公众平台参数
+    private function getOptions()
+    {
+        $userId = $this->userId;
+
+        $config = Wechatconfig::where('userId', $userId)->first();
+
+        return [
+            'debug'  => env('WECHAT_DEBUG', false),
+            'use_laravel_cache' => false,
+            'app_id' => $config->appId,
+            'secret' => $config->secretId,
+            'token'  => $config->tokenId,
+            'aes_key' => $config->aesKey,
+            'log' => [
+                'level' => 'debug',
+                'file'  => storage_path('logs/wechat_'.$userId.'.log')
+            ]
+        ];
     }
 }
