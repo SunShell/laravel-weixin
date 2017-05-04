@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use EasyWeChat;
 use App\Vote;
 use App\Autoreply;
 use App\Defaultreply;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use EasyWeChat\Foundation\Application;
 
 class WxController extends Controller
 {
