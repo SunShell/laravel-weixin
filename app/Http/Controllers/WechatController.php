@@ -15,17 +15,11 @@ class WechatController extends Controller
     private $userId;
     private $options;
 
-    public function init($gzptId)
+    public function serve($gzptId)
     {
         $this->userId = env('WECHAT_USERID_'.$gzptId, 'nobody');
-
         $this->options = $this->getOptions();
 
-        $this->serve();
-    }
-
-    public function serve()
-    {
         $wechat = new Application($this->options);
         $userId = $this->userId;
 
