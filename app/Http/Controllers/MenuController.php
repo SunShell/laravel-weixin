@@ -19,7 +19,7 @@ class MenuController extends Controller
         $options = $wcc->getOptions();
 
         $app = new Application($options);
-        $this->material = $app->menu;
+        $this->menu = $app->menu;
     }
 
     public function menu()
@@ -77,7 +77,7 @@ class MenuController extends Controller
     public function delMenu()
     {
         $this->getFun();
-        
+
         return $this->menu->destroy();
     }
 }
