@@ -98,8 +98,9 @@ class WxController extends Controller
                 $totalNum = $obj->total_count;
                 break;
             case '3':
-                $lists = Vote::orderBy('created_at','desc')->skip($pageId)->take($pageNum)->get();
-                $totalNum = Vote::count();
+                $userId = Auth::user()->name;
+                $lists = Vote::where('userId', $userId)->orderBy('created_at','desc')->skip($pageId)->take($pageNum)->get();
+                $totalNum = Vote::where('userId', $userId)->count();
                 break;
         }
 

@@ -7,6 +7,7 @@ use App\Vote;
 use App\Votedetail;
 use App\Votedaily;
 use EasyWeChat\Foundation\Application;
+use Illuminate\Support\Facades\Auth;
 
 class VotesController extends Controller
 {
@@ -18,8 +19,9 @@ class VotesController extends Controller
     //首页
     public function index()
     {
+        $userId = Auth::user()->name;
         $activeVal  = 'voteList';
-        $votes      = Vote::latest()->get();
+        $votes      = Vote::where('userId', $userId)->latest()->get();
         $voteName  = '';
 
         return view('votes.index', compact('activeVal','votes', 'voteName'));
@@ -38,8 +40,9 @@ class VotesController extends Controller
 
         if($voteName == '') return redirect()->home();
 
+        $userId = Auth::user()->name;
         $activeVal  = 'voteList';
-        $votes      = Vote::where('name', 'like', '%'.$voteName.'%')->get();
+        $votes      = Vote::where('userId', $userId)->where('name', 'like', '%'.$voteName.'%')->get();
 
         return view('votes.index', compact('activeVal','votes', 'voteName'));
     }
@@ -391,6 +394,7 @@ class VotesController extends Controller
         $vote->playerNum    = $request->playerNum;
         $vote->isDaily      = $request->isDaily;
         $vote->isPublic     = $request->isPublic;
+        $vote->userId       = Auth::user()->name;
 
         $vote->save();
 
