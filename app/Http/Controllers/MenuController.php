@@ -8,14 +8,24 @@ class MenuController extends Controller
 {
     public $menu;
 
-    public function __construct(Application $app)
+    public function __construct()
     {
         $this->middleware('auth');
-        $this->menu = $app->menu;
+    }
+
+    public function getFun()
+    {
+        $wcc = new WechatconfigsController();
+        $options = $wcc->getOptions();
+
+        $app = new Application($options);
+        $this->material = $app->menu;
     }
 
     public function menu()
     {
+        $this->getFun();
+
         $buttons = [
             [
                 "type" => "view",
@@ -59,11 +69,15 @@ class MenuController extends Controller
 
     public function getMenu()
     {
+        $this->getFun();
+
         return $this->menu->all();
     }
 
     public function delMenu()
     {
+        $this->getFun();
+        
         return $this->menu->destroy();
     }
 }
