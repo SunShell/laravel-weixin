@@ -1,5 +1,24 @@
 <?php
-$js = EasyWeChat::js();
+use App\Wechatconfig;
+use EasyWeChat\Foundation\Application;
+
+$config = Wechatconfig::where('userId', $vote->userId)->first();
+
+$options = [
+    'debug'  => env('WECHAT_DEBUG', false),
+    'use_laravel_cache' => false,
+    'app_id' => $config->appId,
+    'secret' => $config->secretId,
+    'token'  => $config->tokenId,
+    'aes_key' => $config->aesKey,
+    'log' => [
+        'level' => 'debug',
+        'file'  => storage_path('logs/wechat_'.$vote->userId.'.log')
+    ]
+];
+
+$app = new Application($options);
+$js = $app->js;
 ?>
 <!doctype html>
 <html>
@@ -67,7 +86,7 @@ $js = EasyWeChat::js();
 
         wx.onMenuShareAppMessage({
             title   : '{{ $vote->name }}', // 分享标题
-            desc    : '铝融网',
+            desc    : '',
             link    : '{{ asset('/vote/'.$vote->voteId) }}', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
             imgUrl  : '{{ asset('/storage/topImages/'.$vote->topImg) }}', // 分享图标
             type    : 'link', // 分享类型,music、video或link，不填默认为link
