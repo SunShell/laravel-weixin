@@ -18,7 +18,8 @@ class MaterialsController extends Controller
         $wcc = new WechatconfigsController();
         $options = $wcc->getOptions();
 
-        $this->material = new Application($options);
+        $app = new Application($options);
+        $this->material = $app->material;
     }
 
     public function photos()
@@ -33,7 +34,7 @@ class MaterialsController extends Controller
     public function articles()
     {
         $this->getFun();
-        
+
         $articles = $this->material->lists('news');
 
         return $articles;
