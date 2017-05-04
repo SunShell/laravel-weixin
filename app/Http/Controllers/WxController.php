@@ -74,14 +74,24 @@ class WxController extends Controller
 
         switch ($arr[0]){
             case '1':
-                $material = EasyWeChat::material();
+                $wcc = new WechatconfigsController();
+                $options = $wcc->getOptions();
+
+                $app = new Application($options);
+                $material = $app->material;
+
                 $json = $material->lists('image', $pageId, $pageNum);
                 $obj = json_decode($json);
                 $lists = $obj->item;
                 $totalNum = $obj->total_count;
                 break;
             case '2':
-                $material = EasyWeChat::material();
+                $wcc = new WechatconfigsController();
+                $options = $wcc->getOptions();
+
+                $app = new Application($options);
+                $material = $app->material;
+
                 $json = $material->lists('news', $pageId, $pageNum);
                 $obj = json_decode($json);
                 $lists = $obj->item;
