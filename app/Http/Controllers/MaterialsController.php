@@ -11,7 +11,10 @@ class MaterialsController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+    }
 
+    public function getFun()
+    {
         $wcc = new WechatconfigsController();
         $options = $wcc->getOptions();
 
@@ -20,6 +23,8 @@ class MaterialsController extends Controller
 
     public function photos()
     {
+        $this->getFun();
+
         $photos = $this->material->lists('image');
 
         return $photos;
@@ -27,6 +32,8 @@ class MaterialsController extends Controller
 
     public function articles()
     {
+        $this->getFun();
+        
         $articles = $this->material->lists('news');
 
         return $articles;
