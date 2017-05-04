@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use App\Vote;
 use App\Votedetail;
 use App\Votedaily;
-use EasyWeChat;
+use EasyWeChat\Foundation\Application;
 
 class VotesController extends Controller
 {
@@ -152,7 +152,12 @@ class VotesController extends Controller
 
         $idArr = Votedetail::where('voteId', $voteId)->where('state', 1)->pluck('xsId');
         $idBrr = array();
-        $userService = EasyWeChat::user();
+
+        $wcc = new WechatconfigsController();
+        $options = $wcc->getOptions();
+
+        $app = new Application($options);
+        $userService = $app->user;
 
         foreach ($idArr as $ids){
             if(substr($ids,0,3) === 'pc_'){
