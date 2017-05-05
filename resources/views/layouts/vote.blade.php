@@ -40,7 +40,7 @@ $js = $app->js;
 <body>
     @if(!session('openid') || session('openid') == 'no')
         <div style="width: 100%;">
-            <img src="{{ asset('/storage/topImages/1493021280MMxSk.jpg') }}" style="width: 100%;">
+            <img src="{{ asset('/storage/topImages/'.$vote->followImg) }}" style="width: 100%;">
         </div>
     @else
         <div class="phoneBody">
@@ -58,7 +58,7 @@ $js = $app->js;
             </div>
         </div>
 
-        <div class="voteFooter">承办方：铝融网（www.lrw360.com）</div>
+        <div class="voteFooter">承办方：淄博天德网络科技有限公司</div>
     @endif
 
     @if($res)

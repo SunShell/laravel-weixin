@@ -380,6 +380,10 @@ class VotesController extends Controller
         $fileName   = time().str_random(5).'.'.$file->getClientOriginalExtension();
         $file->move('storage/topImages', $fileName);
 
+        $fileTwo    = $request->file('followImg');
+        $followImg  = time().str_random(5).'.'.$fileTwo->getClientOriginalExtension();
+        $fileTwo->move('storage/topImages', $followImg);
+
         $vote = new Vote;
 
         $vote->voteId       = time().str_random(10);
@@ -395,6 +399,7 @@ class VotesController extends Controller
         $vote->isDaily      = $request->isDaily;
         $vote->isPublic     = $request->isPublic;
         $vote->userId       = Auth::user()->name;
+        $vote->followImg    = $followImg;
 
         $vote->save();
 
