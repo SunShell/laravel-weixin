@@ -15,7 +15,7 @@
         <tr>
             <th>排名</th>
             <th>编号</th>
-            <th>选手名称</th>
+            <th>选手</th>
             <th>票数</th>
         </tr>
         </thead>

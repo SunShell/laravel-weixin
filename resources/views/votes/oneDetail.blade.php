@@ -24,7 +24,7 @@
         <img src="{{ asset('/storage/voteImages/'.$player->img) }}">
     </div>
     <br>
-    <b>姓名：</b>{{ $player->name }}
+    <b>{{ $vote->playerName }}：</b>{{ $player->name }}
     <br>
     <b>简介：</b>{{ $player->introduction }}
     <br>

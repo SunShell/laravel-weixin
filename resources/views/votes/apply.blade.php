@@ -19,8 +19,8 @@
             <hr>
 
             <div class="form-group">
-                <label for="name">我的妈妈</label>
-                <input type="text" class="form-control" id="name" name="name" tip="妈妈姓名">
+                <label for="name">{{ $vote->playerName }}名称</label>
+                <input type="text" class="form-control" id="name" name="name" tip="{{ $vote->playerName }}名称">
             </div>
 
             <div class="form-group">
