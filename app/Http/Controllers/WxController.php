@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Vote;
 use App\Autoreply;
 use App\Defaultreply;
+use App\Menuconfig;
+use App\Menulog;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use EasyWeChat\Foundation\Application;
@@ -16,6 +19,7 @@ class WxController extends Controller
         $this->middleware('auth');
     }
 
+    //自动回复列表页
     public function autoReply()
     {
         $activeVal = 'arList';
@@ -23,6 +27,7 @@ class WxController extends Controller
         return view('weixin.arList', compact('activeVal'));
     }
 
+    //获取自动回复分页详情
     public function getPageInfo()
     {
         $pageSize = request('pageSize');
@@ -41,6 +46,7 @@ class WxController extends Controller
         return response()->json(array('allNum'=> $allNum, 'pageData' => $list), 200);
     }
 
+    //自动回复列表翻页
     public function getPaging()
     {
         $kwd = request('kwd');
@@ -58,6 +64,7 @@ class WxController extends Controller
         return response()->json(array('pageData' => $list), 200);
     }
 
+    //删除自动回复
     public function del()
     {
         $delIds = request('delIds');
@@ -66,6 +73,7 @@ class WxController extends Controller
         return response()->json(array('delRes' => $deleted), 200);
     }
 
+    //获取素材
     public function sel($mType)
     {
         $arr = explode('<@>', $mType);
@@ -107,6 +115,7 @@ class WxController extends Controller
         return view('weixin.arSel', compact('mType', 'lists', 'totalNum', 'pageNum'));
     }
 
+    //保存自动回复
     public function store()
     {
         $ar = new Autoreply;
@@ -125,6 +134,7 @@ class WxController extends Controller
         return redirect('/autoReply');
     }
 
+    //获取默认自动回复内容
     public function getDr()
     {
         $drType = request('drType');
@@ -134,6 +144,7 @@ class WxController extends Controller
         return response()->json(array('data' => $res), 200);
     }
 
+    //保存默认自动回复内容
     public function storeDr()
     {
         $drType     = request('drType');
@@ -158,6 +169,239 @@ class WxController extends Controller
             return response()->json(array('flag' => 'yes'), 200);
         }else{
             return response()->json(array('flag' => 'no'), 200);
+        }
+    }
+
+    public function menuList()
+    {
+        $activeVal = 'menuList';
+
+        $mut = Menulog::where('userId', Auth::user()->name)->value('updateTime');
+
+        return view('weixin.menuList', compact('activeVal', 'mut'));
+    }
+
+    public function menuAdd()
+    {
+        $userId = Auth::user()->name;
+
+        $levelOnes = Menuconfig::where('userId', $userId)->where('parentId', 'root')->where('type', 'parent')->get();
+
+        $menuMsg = session('v_menuMsg');
+
+        return view('weixin.menuAdd', compact('levelOnes', 'menuMsg'));
+    }
+
+    public function menuStore()
+    {
+        $mc = new Menuconfig();
+
+        $userId     = Auth::user()->name;
+        $nodeId     = time().str_random(5);
+        $parentId   = request('menuLevel') == '1' ? 'root' : request('levelOne');
+        $arType     = request('arType');
+        $menuType   = request('menuType') == 'click' ? (($arType == '1' || $arType == '2') ? 'media_id' : request('menuType')) : request('menuType');
+
+        $levelNum = Menuconfig::where('userId', $userId)->where('parentId', $parentId)->count();
+
+        if($parentId == 'root') {
+            if($levelNum >= 3) return response()->json(array('data' => '一级菜单已满，无法添加！'), 200);
+        }else{
+            if($levelNum >= 5) return response()->json(array('data' => '该菜单下的二级菜单已满，无法添加！'), 200);
+        }
+
+        $mc->userId         = $userId;
+        $mc->nodeId         = $nodeId;
+        $mc->parentId       = $parentId;
+        $mc->name           = request('menuName');
+        $mc->type           = $menuType;
+        $mc->arType         = $arType;
+        $mc->content        = $menuType == 'click' ? $nodeId : request('menuContent');
+        $mc->mContent       = request('arContent');
+        $mc->mTitle         = ($menuType == 'click' && $arType == '0') ? substr(request('arMtitle'),0, 10) : request('arMtitle');
+        $mc->mDescription   = request('arMdescription');
+        $mc->mUrl           = request('arMurl');
+        $mc->mImage         = request('arMimage');
+
+        $res = $mc->save();
+
+        if($res){
+            return response()->json(array('data' => '添加成功！'), 200);
+        }else{
+            return response()->json(array('data' => '添加失败！'), 200);
+        }
+    }
+
+    public function getMenu()
+    {
+        $res = Menuconfig::where('userId', Auth::user()->name)->orderBy('created_at', 'asc')->get();
+
+        return response()->json(array('data' => $res), 200);
+    }
+
+    public function clearMenu()
+    {
+        $res = Menuconfig::where('userId', Auth::user()->name)->delete();
+
+        $rel = '失败';
+        if($res) $rel = '成功';
+
+        return response()->json(array('data' => $rel), 200);
+    }
+
+    public function getOneMenu()
+    {
+        $res = Menuconfig::where('nodeId', request('nodeId'))->first();
+
+        return response()->json(array('data' => $res), 200);
+    }
+
+    public function delOneMenu()
+    {
+        $nodeId = request('nodeId');
+
+        $res = Menuconfig::where(function ($query) use ($nodeId) {
+            $query->where('nodeId', '=', $nodeId)
+                ->orWhere('parentId', '=', $nodeId);
+        })->delete();
+
+        return response()->json(array('data' => $res), 200);
+    }
+
+    public function dropMenu()
+    {
+        $wcc = new WechatconfigsController();
+        $options = $wcc->getOptions();
+        $app = new Application($options);
+        $menu = $app->menu;
+
+        $delRes = $menu->destroy();
+        $delObj = json_decode($delRes);
+
+        if($delObj->errmsg && $delObj->errmsg == 'ok') {
+            $userId = Auth::user()->name;
+            $nowTime = Carbon::now()->toDateTimeString();
+            $num = Menulog::where('userId', $userId)->count();
+
+            if ($num > 0) {
+                Menulog::where('userId', $userId)->update(['updateTime' => $nowTime]);
+            } else {
+                $ml = new Menulog();
+
+                $ml->userId = $userId;
+                $ml->updateTime = $nowTime;
+
+                $ml->save();
+            }
+
+            return response()->json(array('data' => '成功', 'updateTime' => $nowTime), 200);
+        }else{
+            return response()->json(array('data' => '失败'), 200);
+        }
+    }
+
+    public function updateMenu()
+    {
+        $buttons = $this->getButtons();
+
+        $wcc = new WechatconfigsController();
+        $options = $wcc->getOptions();
+        $app = new Application($options);
+        $menu = $app->menu;
+
+        //先删除
+        $delRes = $menu->destroy();
+        $delObj = json_decode($delRes);
+
+        if($delObj->errmsg && $delObj->errmsg == 'ok') {
+            //再添加
+            $addRes = $menu->add($buttons);
+            $addObj = json_decode($addRes);
+
+            if($addObj->errmsg && $addObj->errmsg == 'ok') {
+                $userId = Auth::user()->name;
+                $nowTime = Carbon::now()->toDateTimeString();
+                $num = Menulog::where('userId', $userId)->count();
+
+                if ($num > 0) {
+                    Menulog::where('userId', $userId)->update(['updateTime' => $nowTime]);
+                } else {
+                    $ml = new Menulog();
+
+                    $ml->userId = $userId;
+                    $ml->updateTime = $nowTime;
+
+                    $ml->save();
+                }
+
+                return response()->json(array('data' => '成功', 'updateTime' => $nowTime), 200);
+            }else{
+                return response()->json(array('data' => '失败'), 200);
+            }
+        }else{
+            return response()->json(array('data' => '失败'), 200);
+        }
+    }
+
+    private function getButtons()
+    {
+        $userId  = Auth::user()->name;
+        $buttons = array();
+
+        $lists = Menuconfig::where('userId', $userId)->where('parentId', 'root')->orderBy('created_at','asc')->get();
+
+        foreach ($lists as $list){
+            if($list->type == 'parent'){
+                array_push($buttons, array(
+                    "name" => $list->name,
+                    "sub_button" => $this->getSubs($list->nodeId)
+                ));
+            }else {
+                $key = $this->getKey($list->type);
+
+                array_push($buttons, array(
+                    "type"  => $list->type,
+                    "name"  => $list->name,
+                    $key    => $list->content
+                ));
+            }
+        }
+
+        return $buttons;
+    }
+
+    private function getSubs($pId)
+    {
+        $userId  = Auth::user()->name;
+
+        $ones = Menuconfig::where('userId', $userId)->where('parentId', $pId)->orderBy('created_at','asc')->get();
+        $arr = array();
+
+        foreach ($ones as $one){
+            $key = $this->getKey($one->type);
+
+            array_push($arr, array(
+                "type"  => $one->type,
+                "name"  => $one->name,
+                $key    => $one->content
+            ));
+        }
+
+        return $arr;
+    }
+
+    private function getKey($aType)
+    {
+        switch ($aType){
+            case 'view':
+                return 'url';
+                break;
+            case 'media_id':
+                return 'media_id';
+                break;
+            case 'click':
+                return 'key';
+                break;
         }
     }
 }

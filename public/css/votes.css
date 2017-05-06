@@ -186,3 +186,34 @@ h6, .h6 {
     border-color: #229ffd;
     background: #229ffd;
 }
+
+/* 菜单列表页 */
+.votesList .menuContainerLeft {
+    float: left;
+    width: 30%;
+    height: 450px;
+    box-sizing: border-box;
+    border: 1px solid #CCCCCC;
+}
+
+.votesList .menuContainerLeft .menuContainerLeftOp {
+    padding: 10px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #ccc;
+}
+
+.votesList .menuContainerRight {
+    float: left;
+    width: 70%;
+    height: 450px;
+    box-sizing: border-box;
+    border: 1px solid #CCCCCC;
+    border-left: none;
+    padding: 1rem;
+}
+
+.votesList .menuContainerBottom {
+    clear:both;
+    padding-top: 1rem;
+    margin-bottom: 1rem;
+}

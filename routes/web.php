@@ -91,3 +91,22 @@ Route::post('/autoReply/store', 'WxController@store');
 Route::post('/autoReply/getDr', 'WxController@getDr');
 //保存自动回复
 Route::post('/autoReply/storeDr', 'WxController@storeDr');
+
+//自定义菜单
+Route::get('/menuList', 'WxController@menuList');
+//添加自定义菜单页面
+Route::get('/menuList/add', 'WxController@menuAdd');
+//菜单保存
+Route::post('/menuList/store', 'WxController@menuStore');
+//获取菜单
+Route::post('/menuList/getMenu', 'WxController@getMenu');
+//清空菜单
+Route::post('/menuList/clearMenu', 'WxController@clearMenu');
+//获取单个菜单的详情
+Route::post('/menuList/getOneMenu', 'WxController@getOneMenu');
+//删除单个菜单
+Route::post('/menuList/delOneMenu', 'WxController@delOneMenu');
+//更新菜单
+Route::post('/menuList/updateMenu', 'WxController@updateMenu');
+//删除菜单
+Route::post('/menuList/dropMenu', 'WxController@dropMenu');

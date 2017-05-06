@@ -24,7 +24,8 @@ class MenuController extends Controller
 
     public function menu()
     {
-        $this->getFun();
+        return 'Hello!';
+        /*$this->getFun();
 
         $buttons = [
             [
@@ -64,7 +65,7 @@ class MenuController extends Controller
             ]
         ];
 
-        return $this->menu->add($buttons);
+        return $this->menu->add($buttons);*/
     }
 
     public function getMenu()

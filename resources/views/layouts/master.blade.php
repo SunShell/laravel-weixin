@@ -14,6 +14,8 @@
         <link rel="stylesheet" href="lib/umeditor/themes/default/css/umeditor.css">
     @elseif($activeVal == 'arList')
         <link rel="stylesheet" href="css/arAdd.css">
+    @elseif($activeVal == 'menuList')
+        <link href="https://cdn.bootcss.com/zTree.v3/3.5.28/css/zTreeStyle/zTreeStyle.min.css" rel="stylesheet">
     @endif
 
     <!-- Custom styles for this template -->
@@ -28,6 +30,9 @@
         <script type="text/javascript" src="lib/umeditor/lang/zh-cn/zh-cn.js"></script>
     @elseif($activeVal == 'arList')
         <script type="text/javascript" src="/lib/layer/layer.js"></script>
+    @elseif($activeVal == 'menuList')
+        <script type="text/javascript" src="/lib/layer/layer.js"></script>
+        <script src="https://cdn.bootcss.com/zTree.v3/3.5.28/js/jquery.ztree.core.min.js"></script>
     @endif
 </head>
 

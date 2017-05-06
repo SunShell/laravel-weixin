@@ -308,8 +308,6 @@ function typeChange() {
 
 //素材选择
 function materialSel() {
-    var _this = pageObj;
-
     layer.open({
         type: 2,
         title: '素材选择',

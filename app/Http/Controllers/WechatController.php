@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Autoreply;
 use App\Defaultreply;
+use App\Menuconfig;
 use App\Wechatconfig;
 use EasyWeChat\Message\Image;
 use EasyWeChat\Message\Material;
@@ -31,15 +32,37 @@ class WechatController extends Controller
                             return $this->getDefaultMsg(1);
                             break;
                         case 'CLICK':
-                            if($message->EventKey == 'zmmm'){
-                                $news = new News([
-                                    'title'         => '最美妈妈，母亲节送出一份爱的礼物',
-                                    'description'   => '点击进入投票并转发给好友，就有机会赢得礼品一份！',
-                                    'url'           => 'http://www.lvshangwang.com/verify/1493022390JT13lCdFoh@v@'.$message->FromUserName,
-                                    'image'         => 'http://www.lvshangwang.com/storage/topImages/14930223905j0mS.jpg'
-                                ]);
+                            $val = $message->EventKey;
+                            $num = Menuconfig::where('userId', $userId)->where('type', 'click')->where('content', $val)->count();
 
-                                $wechat->staff->message($news)->to($message->FromUserName)->send();
+                            if($num > 0){
+                                $arr = Menuconfig::where('userId', $userId)->where('type', 'click')->where('content', $val)->first();
+
+                                switch ($arr->arType){
+                                    case '0':
+                                        return $arr->mContent;
+                                        break;
+                                    case '3':
+                                        $news = new News([
+                                            'title'         => $arr->mTitle,
+                                            'description'   => $arr->mDescription,
+                                            'url'           => asset('/verify/'.$arr->mUrl.'@v@'.$message->FromUserName),
+                                            'image'         => asset('/storage/topImages/'.$arr->mImage)
+                                        ]);
+
+                                        $wechat->staff->message($news)->to($message->FromUserName)->send();
+                                        break;
+                                    case '4':
+                                        $news = new News([
+                                            'title'         => $arr->mTitle,
+                                            'description'   => $arr->mDescription,
+                                            'url'           => $arr->mUrl,
+                                            'image'         => $arr->mImage
+                                        ]);
+
+                                        $wechat->staff->message($news)->to($message->FromUserName)->send();
+                                        break;
+                                }
                             }
                             break;
                         default:
