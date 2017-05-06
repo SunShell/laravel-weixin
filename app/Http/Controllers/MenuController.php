@@ -64,7 +64,7 @@ class MenuController extends Controller
             ]
         ];
 
-        $this->menu->add($buttons);
+        return $this->menu->add($buttons);
     }
 
     public function getMenu()
