@@ -94,12 +94,12 @@ function mOp() {
         case '1':
             $('#arSelect').val(arr[0]);
             $('#arMtitle').val(arr[0]);
-            $('#arContent').val(arr[1]);
+            $('#menuContent').val(arr[1]);
             break;
         case '2':
             $('#arSelect').val(arr[0]);
             $('#arMtitle').val(arr[0]);
-            $('#arContent').val(arr[1]);
+            $('#menuContent').val(arr[1]);
             break;
         case '3':
             $('#arSelect').val(arr[0]);
