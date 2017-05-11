@@ -175,7 +175,7 @@ function renderDetail(obj) {
             '<li class="list-group-item">菜单级别：' + (obj.parentId === 'root' ? '一级' : '二级') + '</li>'+
             '<li class="list-group-item">菜单类型：' + getMenuType(obj.type,obj.arType) + '</li>';
 
-    if(obj.parentId !== 'root'){
+    if(obj.type !== 'parent'){
         html += '<li class="list-group-item">菜单内容：' + obj.mTitle + '</li>';
     }
 
