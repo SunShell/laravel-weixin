@@ -18,7 +18,7 @@
         <div class="text-center menuContainerBottom">
             <button id="dropMenu" class="btn btn-danger">删 除 菜 单</button>&nbsp;&nbsp;&nbsp;&nbsp;
             <button id="updateMenu" class="btn btn-primary">更 新 菜 单</button>
-            <p style="padding-top: 10px;">上次更新时间：<span id="updateTime">{{ $mut ? $mut->toDateTimeString() : '尚未进行菜单更新操作' }}</span></p>
+            <p style="padding-top: 10px;">上次更新时间：<span id="updateTime">{{ $mut ? $mut : '尚未进行菜单更新操作' }}</span></p>
         </div>
     </div>
 @endsection
